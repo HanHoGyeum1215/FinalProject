@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/course/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">회원 등록</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+	        			<form th:action="@{/admin/course/member/memberJoinOk}" method="post" th:object="${memberCommand}">
+	        				<div class="form-group row">
+	        					<label for="memId" class="col-sm-2 col-form-label">
+	        						아이디
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="memId" class="form-control" id="memId">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memPass" class="col-sm-2 col-form-label">
+	        						비밀번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="password" name="memPass" class="form-control" id="memPass">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="reMemPass" class="col-sm-2 col-form-label">
+	        						비밀번호 확인
+	        					<span th:text="${valid_ReMemPass}"></span> 	
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="password" name="reMemPass" class="form-control" id="reMemPass">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memName" class="col-sm-2 col-form-label">
+	        						이름
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="memName" class="form-control" id="memName">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memAddr" class="col-sm-2 col-form-label">
+	        						주소
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="memAddr" class="form-control" id="memAddr">
+	        					</div>
+	        				</div>
+	        			   <div class="form-group row">
+	        					<label for="memEmail" class="col-sm-2 col-form-label">
+	        						이메일
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="email" name="memEmail" class="form-control" id="memEmail">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memTel" class="col-sm-2 col-form-label">
+	        						전화번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="memTel" class="form-control" id="memTel">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memBirth" class="col-sm-2 col-form-label">
+	        						생년월일
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="datetime-local" name="memBirth" class="form-control" id="memBirth">
+	        					</div>
+	        				</div>	        				
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>약관에 따른 가입에 동의합니다.  <a href="#" class="term-service">가입 약관</a></label>
+                            </div>
+	        				<div class="btn-group float-sm-right">
+	        					<button type="submit" class="btn btn-primary">등록</button>
+	        				</div>
+	        			</form>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

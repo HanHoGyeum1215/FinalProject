@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="fragments/partner/head :: headFragment">
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Final Project</title>
+</head>
+<body id="page-top">
+	<div id="wrapper">
+		<!-- [header] 영역 시작 -->
+		<nav th:replace="fragments/partner/mall/nav :: navFragment"></nav>
+		<!-- [header] 영역 끝 -->
+		
+		<!-- [content-wrapper] 영역 시작 -->
+		<div id="content-wrapper" class="d-flex flex-column">
+		
+			<!-- [content] 영역 시작 -->
+			<div id="content">
+				<th:block th:replace="fragments/partner/topbar :: topbarFragment"></th:block>
+				
+				<div class="container-fluid">
+					<th:block layout:fragment="content"></th:block>
+				</div>
+			</div>
+			<!-- [content] 영역 끝 -->
+			
+			<!-- [footer] 영역 시작 -->
+			<footer th:replace="fragments/partner/footer :: footerFragment"></footer>
+			<!-- [footer] 영역 끝 -->
+			
+		</div>
+		<!-- [content-wrapper] 영역 끝 -->
+	</div>
+	
+	<!-- [modal] 영역 시작 -->
+	<th:block th:replace="fragments/partner/modal :: modalFragment"></th:block>
+	<!-- [modal] 영역 끝 -->
+</body>
+</html>

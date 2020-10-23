@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style>
+			label {
+				font-size: 15px;
+				font-weight: 400;
+			}
+		</style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>My Page</h1>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<!-- Post Content -->
+				<div class="postcontent nobottommargin col_last clearfix">
+					<h3>매칭 추가정보 입력</h3>
+
+					<form class="nobottommargin" action="memberAddWrite" method="POST" name="frm" id="frm" enctype="multipart/form-data">
+						<div class="col_full">
+							<label>학력 :</label>
+							<select id="memCareer" name="memCareer" class="form-control">
+								<option selected>....</option>
+								<option >고졸</option>
+								<option >전문학사</option>
+								<option >학사</option>
+								<option >석사</option>
+								<option >박사</option>
+							</select>
+						</div>
+
+						<div class="col_full col_last">
+							<label>직업 :</label>
+							<select id="memJob" name="memJob" class="form-control">
+								<option selected>....</option>
+								<option >무직</option>
+								<option >사무직</option>
+								<option >금융직</option>
+								<option >기술직</option>
+								<option >의료계</option>
+								<option >언론계</option>
+								<option >교사</option>
+								<option >공무원</option>
+								<option >공사직</option>
+								<option >자영업</option>
+								<option >예능계</option>
+								<option >서비스</option>
+								<option >전문직</option>
+							</select>
+						</div>
+						
+						<div class="col_full">
+							<label>연봉(만원) :</label>
+							<input type="text" name="memSalary" class="form-control" id="memSalary">
+						</div>
+						
+						<div class="col_full">
+							<label>키(cm) :</label>
+							<input type="text" name="memHgt" class="form-control" id="memHgt">
+						</div>
+						
+						<div class="col_full">
+							<label>몸무게(kg) :</label>
+							<input type="text" name="memWgt" class="form-control" id="memWgt">
+						</div>
+						
+						<div class="col_full">
+							<label>혈액형 :</label>
+							<select id="memBlood" name="memBlood" class="form-control">
+								<option selected>....</option>
+								<option >A형</option>
+								<option >B형</option>
+								<option >AB형</option>
+								<option >O형</option>
+							</select>
+						</div>
+						
+						<div class="col_full">
+							<label>종교 :</label>
+							<select id="memRlg" name="memRlg" class="form-control">
+								<option selected>....</option>
+								<option >무교</option>
+								<option >기독교</option>
+								<option >천주교</option>
+								<option >불교</option>
+								<option >이슬람교</option>
+							</select>
+						</div>
+						
+						<div class="col_full">
+							<label>취미 :</label>
+							<br>
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="등산">
+							<label class="form-check-label" for="inlineCheckbox1">등산</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="독서">
+							<label class="form-check-label" for="inlineCheckbox1">독서</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="음악감상">
+							<label class="form-check-label" for="inlineCheckbox1">음악감상</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="게임">
+							<label class="form-check-label" for="inlineCheckbox1">게임</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="운동">
+							<label class="form-check-label" for="inlineCheckbox1">운동</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="영화관람">
+							<label class="form-check-label" for="inlineCheckbox1">영화관람</label>
+							&nbsp;&nbsp;
+							<input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="여행">
+							<label class="form-check-label" for="inlineCheckbox1">여행</label>
+						</div>
+						
+						<div class="col_full">
+							<label>프로필사진 :</label>
+							<input type="file" class="form-control" name="memImage" />
+						</div>
+						
+						<div class="col_full nobottommargin">
+							<button class="button button-3d button-black nomargin" id="register-form-submit">submit</button>
+						</div>
+
+					</form>
+				</div><!-- .postcontent end -->
+
+				<!-- left Menu -->
+				<th:block th:replace="fragments/mypage_menu :: mypageMenuFragment(active='matching')"></th:block>
+				<!-- .left Menu end -->
+
+			</div>
+
+		</div>
+
+	</section>
+    </th:block>
+</body>
+</html>

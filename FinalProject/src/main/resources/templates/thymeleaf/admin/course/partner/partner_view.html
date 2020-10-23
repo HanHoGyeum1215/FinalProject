@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/course/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">업체 상세 (업체명)</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+	        			<form action="" method="">
+	        				<div class="form-group row">
+	        					<label for="venId" class="col-sm-2 col-form-label">
+	        						업체 아이디
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venId}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venName" class="col-sm-2 col-form-label">
+	        						상호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venName}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venTel" class="col-sm-2 col-form-label">
+	        						전화번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venTel}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venNo" class="col-sm-2 col-form-label">
+	        						사업자번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venNo}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venAddr" class="col-sm-2 col-form-label">
+	        						주소
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venAddr}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venCeo" class="col-sm-2 col-form-label">
+	        						대표자명
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venCeo}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venCdate" class="col-sm-2 col-form-label">
+	        						계약일
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venCdate}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venAcnt" class="col-sm-2 col-form-label">
+	        						계좌은행
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venAcnt}"></p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="venAcntNo" class="col-sm-2 col-form-label">
+	        						계좌번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext" th:text="${partnerCommand.venAcntNo}"></p>
+	        					</div>
+	        				</div>
+	        			</form>
+	        			<div class="btn-group float-sm-right">
+        					<a th:href="@{partnerCourseAdd(id=${partnerCommand.venId})}" class="btn btn-primary">업체 코스 관리</a>
+        					<a href="/admin/course/partner/partnerModify" class="btn btn-primary">수정</a>
+        					<a th:href="@{partnerDelete(id=${partnerCommand.venId})}" class="btn btn-primary" >삭제</a>
+        					<a href="/admin/course/partner/partnerList" class="btn btn-primary">목록으로</a>
+        				</div>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

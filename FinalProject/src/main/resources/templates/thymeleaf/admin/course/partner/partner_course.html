@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/course/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">업체 코스 관리</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+	        			<form th:action="@{/admin/course/partner/courseAddOk}" method="post" th:object="${courseCommand}" enctype="multipart/form-data">
+	        				<div class="form-group row">
+	        					<label for="venId" class="col-sm-2 col-form-label">
+	        					       업체아이디
+	        					</label>
+	        					<div class="col-sm-10">
+	        				     	<input type="text" name="venId" class="form-control" id="venId" th:value="${partnerCommand.venId}" readonly >
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="goodsType" class="col-sm-2 col-form-label">
+	        						상품종류
+	        					</label>
+	        					<div class="col-sm-10">
+	        					    <input type='radio' name='goodsType' id='goodsType' value='1' />단일 코스 &nbsp; 
+		                            <input type='radio' name='goodsType' id='goodsType' value='2' />패키지 코스
+	        					   
+	        					     <!--  
+									<select id="goodsType" name="goodsType" class="form-control">
+										<option selected="selected">Choose...</option>
+										<option value="set">코스 상품</option>
+										<option value="single">단일 상품</option>
+									</select>
+									-->
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="goodsNo" class="col-sm-2 col-form-label">
+	        						상품번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="goodsNo" class="form-control" id="goodsNo">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="goodsName" class="col-sm-2 col-form-label">
+	        						상품명
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="goodsName" class="form-control" id="goodsName">
+	        					</div>
+	        				</div>	        					        				
+	        				<div class="form-group row">
+	        					<label for="goodsPrice" class="col-sm-2 col-form-label">
+	        						상품가격
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="goodsPrice" class="form-control" id="goodsPrice">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="goodsDet" class="col-sm-2 col-form-label">
+	        						상품설명
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<textarea name="goodsDet" class="form-control" id="goodsDet"></textarea>
+	        					</div>
+	        				</div>	 
+	        				<div class="form-group row">
+	        					<label for="goodsImage" class="col-sm-2 col-form-label">
+	        						상품이미지
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="file" name="goodsImage" class="form-control"  id="goodsImage" multiple="multiple">
+	        					</div>
+	        				</div> 	
+	        				<div class="btn-group float-sm-right">
+	        					<button type="submit" class="btn btn-primary">등록</button>
+	        				</div>
+	        				<br/>
+	        				<br/>
+	        				
+	        		<!-- 위의 내용 등록 후 바로 보여지는 뷰페이지 -->
+	        		
+	        		<div class="row">
+	        				<div class="col-sm-12">
+			        			<!-- Page 컨텐츠 영역 -->
+								<table class="table table-bordered">
+									<colgroup>
+										<col style="width:90px;" />
+										<col style="width:120px;" />
+										<col />
+										<col />
+										<col style="width:90px;" />
+										<col />
+									</colgroup>
+									<thead>
+										<tr>
+											<th>상품번호</th>
+											<th>상품종류</th>
+											<th>상품이미지</th>
+											<th>상품명</th>
+											<th>상품가격</th>
+											<th>상품설명</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="course : ${c_lists}" >
+											<td th:text="${course.goodsNo}"></td>
+											<td th:if="${course.goodsType} == 1">단일 코스</td>
+											<td th:if="${course.goodsType} == 2">패키지 코스</td>
+											<!-- <td th:text="${course.goodsImage}"></td> -->
+											<td><img width="80" height="80" th:src="@{'/static/upload/course/'+${course.goodsImage}}" alt="goods image"></td>
+											<td th:text="${course.goodsName}"></td>
+											<td th:text="${course.goodsPrice}"></td>
+											<td th:text="${course.goodsDet}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+	        			</form>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.admin.course.mapper.MemberMapper2" >
+<sql id="baseColumn">
+		MEM_ID, MEM_PASS, MEM_NAME, MEM_BIRTH, MEM_ADDR, MEM_TEL, MEM_EMAIL
+</sql>	
+<insert id="insertMember" parameterType="app.admin.course.domain.MemberDTO2">
+	insert into member ( <include refid="baseColumn" />  )
+		values(#{memId},#{memPass},#{memName},#{memBirth},#{memAddr},#{memTel},#{memEmail})
+</insert>
+	<resultMap type="app.admin.course.domain.MemberDTO2" id="baseMember" >
+		<constructor>
+			<idArg column="MEM_ID" javaType="string" />
+			<arg column="MEM_PASS" javaType="string" />
+			<arg column="MEM_NAME" javaType="string" />
+			<arg column="MEM_BIRTH" javaType="java.sql.Timestamp"/>
+			<arg column="MEM_ADDR" javaType="string" />
+			<arg column="MEM_TEL" javaType="string" />
+			<arg column="MEM_EMAIL" javaType="string" />
+		</constructor>
+	</resultMap>
+<select id="selectMember" parameterType="app.admin.course.domain.MemberDTO2" resultMap="baseMember">
+select * 
+from(select rownum rn, <include refid="baseColumn" />
+	from(  select <include refid="baseColumn" />  
+			from member
+			<where>
+				<if test="memId != null">
+					MEM_ID = #{memId} 
+				</if>
+			</where>
+			order by MEM_BIRTH desc))
+	<where>
+		<if test="startEndPageDTO != null">
+				rn between #{startEndPageDTO.startPage} 
+			and #{startEndPageDTO.endPage}
+		</if>
+	</where>
+</select>
+<select id="memberCount" resultType="int">
+		select count(*) from member
+</select>
+<delete id="memberDelete" parameterType="string">
+	delete from member
+	<where>
+		MEM_ID = #{memId} 
+	</where>
+</delete>
+
+</mapper>
+
+

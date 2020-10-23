@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/intra/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+	</th:block>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+    	<!-- <div th:include="../templates/fragments/admin/intra/topbar.html"></div> -->
+        <h1 class="h3 mb-4 text-gray-800">근태 리스트</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<div class="row">
+	        				<div class="col-sm-12 col-md-6 mb-3">
+	        					<div class="form-inline">
+		        					<select name="list" id="month" class="form-control" onchange="window.open(value,'_self');">
+		        						<option value="">선택</option>
+		        						<option value="commuteList">전체</option>
+		        						<option value="commuteListPro?month=01">1월</option>
+		        						<option value="commuteListPro?month=02">2월</option>
+		        						<option value="commuteListPro?month=03">3월</option>
+		        						<option value="commuteListPro?month=04">4월</option>
+		        						<option value="commuteListPro?month=05">5월</option>
+		        						<option value="commuteListPro?month=06">6월</option>
+		        						<option value="commuteListPro?month=07">7월</option>
+		        						<option value="ccommuteListPro?month=08">8월</option>
+		        						<option value="commuteListPro?month=09">9월</option>
+		        						<option value="commuteListPro?month=10">10월</option>
+		        						<option value="commuteListPro?month=11">11월</option>
+		        						<option value="commuteListPro?month=12">12월</option>
+		        					</select>
+		              					
+	        					</div>
+	        				</div>
+	        				<div class="col-sm-12 col-md-6">
+	        					<div class="float-right mb-3">
+	        						Total: [[${count}]]	        					    			
+	        					</div>
+	        				</div>
+	        			</div>
+	        			<div class="row">
+	        				<div class="col-sm-12">
+			        			<!-- Page 컨텐츠 영역 -->
+								<table class="table table-bordered">
+									<colgroup>
+										<col style="width:80px;" />
+										<col />
+										<col style="width:200px;"/>
+										<col style="width:200px;" />
+										<col style="width:200px;" />
+										<col style="width:200px;" />
+									</colgroup>
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>아이디</th>
+											<th>날짜</th>
+											<th>출근시간</th>
+											<th>퇴근시간</th>
+											<th>IP 주소</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:if="${commuteList != null}">
+											<tr th:each="dto ,i: ${commuteList}">
+												<th>[[${i.count}]]</th>
+												<td>
+													<a>[[${session.authInfo.Id}]]</a>
+												</td>
+												<td>[[${#dates.format(dto.comDate, 'yyyy-MM-dd')}]]</td> 
+												<!-- <td>[[${dto.comDate}]]</td> -->
+												<td>[[${#dates.format(dto.comGo, 'hh:mm:ss')}]]</td>
+												<!-- <td>[[${dto.comGo}]]</td> -->
+												<td>[[${#dates.format(dto.comLeave, 'hh:mm:ss')}]]</td>
+												<!-- <td>[[${dto.comLeave}]]</td> -->
+												<td>[[${dto.comIp}]]</td>
+											</tr>
+										</th:block>
+										<th:block th:if="${commuteList == null}">
+											<tr>
+												<td colspan="9" class="text-center">등록된 직원이 없습니다.</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- <div class="btn-group float-sm-right">
+	        		    <a href="" class="btn btn-primary">등록</a>
+        				</div> -->
+						
+						<!-- 페이지네이션 -->
+						<!-- 
+						<th:block th:replace="fragments/admin/includePage :: pagingFragment"></th:block> 
+						-->
+						
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

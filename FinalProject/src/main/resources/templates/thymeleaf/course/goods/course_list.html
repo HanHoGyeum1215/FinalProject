@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+      	
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+
+ </head>
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>COURSE</h1>
+			<span>짝에서 구매할 수 있는 데이트 코스목록 입니다.</span>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<!-- Shop
+				============================================= -->
+				<div id="shop" class="shop grid-container clearfix" data-layout="fitRows">
+				   <div class="product clearfix" th:each="course : ${goods_lists}" >
+						<div class="product-image">
+							<img width="150" height="150" th:src="@{'/static/upload/course/'+${course.goodsImage}}" alt="goods image">
+							<div class="product-overlay">
+								<a th:href="@{cart(goodsNo=${course.goodsNo})}" class="add-to-cart"><i class="icon-shopping-cart"></i><span> 장바구니</span></a>
+								<a href="javascript:alert('준비중 입니다.')" class="item-quick-view"><i class="icon-zoom-in2"></i><span> 미리보기</span></a>
+							</div>
+						</div>
+						<div class="product-desc">
+							<a th:href="@{goodsView(id=${course.venId},goodsNo=${course.goodsNo})}"><h3><div class="product-title" th:text="${course.goodsName}"></div></h3></a>
+							<div class="product-price" th:text="${course.goodsPrice}+'원'" ></div>
+						</div>
+					</div>
+
+
+				</div><!-- #shop end -->
+				<!-- 개발이 완료되면 아래 인크루드 사용하세요 
+				<div class="center">
+					<ul class="pagination">
+					  <li><a href="#">«</a></li>
+					  <li><a href="#">1</a></li>
+					  <li><a href="#">2</a></li>
+					  <li><a href="#">3</a></li>
+					  <li><a href="#">4</a></li>
+					  <li><a href="#">5</a></li>
+					  <li><a href="#">»</a></li>
+					</ul>
+					-->
+					
+					<th:block th:replace="fragments/includePage :: pagingFragment"></th:block>
+					 
+				 </div>
+
+			</div>
+
+		</div>
+
+	</section>
+    </th:block>
+</body>
+</html>

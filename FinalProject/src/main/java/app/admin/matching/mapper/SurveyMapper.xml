@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="app.admin.matching.mapper.SurveyMapper">
+	<sql id="col">
+		SUR_NO,MEM_ID,SUR_AGE,SUR_CAREER,SUR_JOB,SUR_BLOOD,
+		SUR_HGT,SUR_WGT,SUR_HOBBY,SUR_RLG,SUR_SALARY
+	</sql>
+	
+	 <insert id="insertSurvey" parameterType="app.admin.matching.domain.SurveyDTO" useGeneratedKeys="false">
+	 	MERGE INTO SURVEY
+	 	USING DUAL
+	 	ON (MEM_ID=#{memId})
+	 	WHEN MATCHED THEN
+	 		UPDATE SET SUR_AGE=#{surAge},
+	 					SUR_CAREER=#{surCareer},
+	 					SUR_JOB=#{surJob},
+	 					SUR_BLOOD=#{surBlood},
+	 					SUR_HGT=#{surHgt},
+	 					SUR_WGT=#{surWgt},
+	 					SUR_HOBBY=#{surHobby},
+	 					SUR_RLG=#{surRlg},
+	 					SUR_SALARY=#{surSalary}
+	 	WHEN NOT MATCHED THEN
+		 	insert(<include refid="col"/>)
+		 	values(SURVEY_SEQ.NEXTVAL, #{memId},#{surAge},#{surCareer},#{surJob},
+	 			#{surBlood},#{surHgt},#{surWgt},#{surHobby},#{surRlg},#{surSalary})
+	 </insert>
+	<resultMap type="app.admin.matching.domain.MemberDTO" id="member">
+		<id column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+		<result column="MEM_NAME" jdbcType="VARCHAR" property="memName"/>
+		<result column="MEM_BIRTH" jdbcType="VARCHAR" property="memBirth"/>
+		<result column="MEM_ADDR" jdbcType="VARCHAR" property="memAddr"/>
+		<result column="MEM_TEL" jdbcType="VARCHAR" property="memTel"/>
+		<result column="MEM_EMAIL" jdbcType="VARCHAR" property="memEmail"/>
+		<result column="MEM_PASS" jdbcType="VARCHAR" property="memPass"/>
+		<result column="MEM_GENDER" jdbcType="VARCHAR" property="memGender"/>
+		<result column="MEM_REGIST" jdbcType="TIMESTAMP" property="memRegist"/>
+		<association property="memberAdd" javaType="app.admin.matching.domain.MemberAddDTO" resultMap="memberAdd"/>
+	</resultMap>
+	
+	<resultMap type="app.admin.matching.domain.MemberAddDTO" id="memberAdd">
+		<id column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+		<result column="MEM_CAREER" jdbcType="VARCHAR" property="memCareer"/>
+		<result column="MEM_JOB" jdbcType="VARCHAR" property="memJob"/>
+		<result column="MEM_SALARY" jdbcType="VARCHAR" property="memSalary"/>
+		<result column="MEM_HGT" jdbcType="VARCHAR" property="memHgt"/>
+		<result column="MEM_WGT" jdbcType="VARCHAR" property="memWgt"/>
+		<result column="MEM_BLOOD" jdbcType="VARCHAR" property="memBlood"/>
+		<result column="MEM_HOBBY" jdbcType="VARCHAR" property="memHobby"/>
+		<result column="MEM_RLG" jdbcType="VARCHAR" property="memRlg"/>
+		<result column="MEM_STORE_IMAGE" jdbcType="VARCHAR" property="memStoreImage"/>
+		<result column="MEM_ORIGINAL_IMAGE" jdbcType="VARCHAR" property="memOriginalImage"/>
+		<result column="MEM_EXP" jdbcType="TIMESTAMP" property="memExp"/>
+		<result column="MEM_MAT" jdbcType="BIGINT" property="memMat"/>
+	</resultMap>
+	<select id="selectMember" parameterType="app.admin.matching.domain.SurveyDTO" resultMap="member">
+		SELECT  M.MEM_ID, RPAD(SUBSTR(MEM_NAME,1,1),LENGTH(MEM_NAME)+1,'*') AS MEM_NAME,
+				RPAD(SUBSTR(MEM_TEL,1,7),LENGTH(MEM_TEL),'*') AS MEM_TEL,
+				RPAD(SUBSTR(MEM_ADDR,1,7),LENGTH(MEM_ADDR),'*') AS MEM_ADDR,
+				MEM_BIRTH,	
+				MEM_EMAIL, MEM_PASS, MEM_GENDER, MEM_REGIST,
+				MEM_CAREER, MEM_JOB, MEM_SALARY, MEM_HGT,
+				MEM_WGT, MEM_BLOOD, MEM_HOBBY, MEM_RLG,
+				MEM_ORIGINAL_IMAGE,	MEM_STORE_IMAGE, MEM_EXP, MEM_MAT
+		FROM MEMBER M JOIN MEMBERADD A
+		ON A.MEM_ID=M.MEM_ID
+		<trim prefix="where" prefixOverrides="AND | OR">
+			<if test='memGender == "M"'>
+				MEM_GENDER = 'F'
+			</if>
+			<if test='memGender == "F"'>
+				AND MEM_GENDER = 'M'
+			</if>
+			
+			<if test="surBlood !=null">
+				AND MEM_BLOOD=#{surBlood}
+			</if>
+			<if test="surCareer != null">
+				AND MEM_CAREER=#{surCareer}
+			</if>
+			<if test="surJob != null">
+				AND MEM_JOB=#{surJob}
+			</if>
+			<if test="surRlg != null">
+				AND MEM_RLG=#{surRlg}
+			</if>
+			<if test="surSalary !=null">
+				AND MEM_SALARY >= #{surSalary}
+			</if>
+			<if test="surHgt != null">
+				AND MEM_HGT >= #{surHgt}
+			</if>
+			<if test="surWgt != null">
+				AND #{surWgt} > MEM_WGT
+			</if>
+			<if test="surAge != null">
+				AND ((SELECT TO_CHAR(SYSDATE,'YYYY') FROM DUAL) - (SELECT TO_CHAR(MEM_BIRTH,'YYYY') FROM DUAL)) 
+					BETWEEN #{surAge} and #{surAge}+9
+			</if>
+			<if test="surHobby != null">
+				AND MEM_HOBBY like '%' || #{surHobby} || '%'
+			</if>
+		</trim>
+	</select>
+	
+	
+	<select id="selectSurvey" parameterType="string" resultMap="selectSurvey">
+		SELECT *
+		FROM  SURVEY
+		WHERE MEM_ID=#{memId}
+	
+	</select>
+	<resultMap type="app.admin.matching.domain.SurveyDTO" id="selectSurvey">
+		<id column="SUR_NO" jdbcType="VARCHAR" property="surNo"/>
+	 	<result column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+	 	<result column="SUR_AGE" jdbcType="VARCHAR" property="surAge"/>
+	 	<result column="SUR_CAREER" jdbcType="VARCHAR" property="surCareer"/>
+	 	<result column="SUR_JOB" jdbcType="VARCHAR" property="surJob"/>
+	 	<result column="SUR_BLOOD" jdbcType="VARCHAR" property="surBlood"/>
+	 	<result column="SUR_HGT" jdbcType="VARCHAR" property="surHgt"/>
+	 	<result column="SUR_WGT" jdbcType="VARCHAR" property="surWgt"/>
+	 	<result column="SUR_HOBBY" jdbcType="VARCHAR" property="surHobby"/>
+	 	<result column="SUR_RLG" jdbcType="VARCHAR" property="surRlg"/>
+	 	<result column="SUR_SALARY" jdbcType="BIGINT" property="surSalary"/>
+	
+	</resultMap>
+	
+	
+	
+	
+	</mapper>

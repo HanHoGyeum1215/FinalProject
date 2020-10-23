@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.admin.matching.mapper.MemberMapper">
+	<sql id="column">
+		MEM_ID, MEM_NAME, MEM_BIRTH, MEM_ADDR, MEM_TEL, 
+		MEM_EMAIL, MEM_PASS, MEM_GENDER, MEM_REGIST, MEM_JOINOK
+	</sql>
+	<sql id="col_memadd">
+		MEM_ID, MEM_CAREER, MEM_JOB, MEM_SALARY, MEM_HGT,
+		MEM_WGT, MEM_BLOOD, MEM_HOBBY, MEM_RLG, MEM_ORIGINAL_IMAGE,
+		MEM_STORE_IMAGE, MEM_EXP, MEM_MAT
+	</sql>
+	
+	<resultMap type="app.admin.matching.domain.MemberAddDTO" id="memAdd">
+	 	<id column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+		<result column="MEM_CAREER" jdbcType="VARCHAR" property="memCareer"/>
+		<result column="MEM_JOB" jdbcType="VARCHAR" property="memJob"/>
+		<result column="MEM_SALARY" jdbcType="VARCHAR" property="memSalary"/>
+		<result column="MEM_HGT" jdbcType="VARCHAR" property="memHgt"/>
+		<result column="MEM_WGT" jdbcType="VARCHAR" property="memWgt"/>
+		<result column="MEM_BLOOD" jdbcType="VARCHAR" property="memBlood"/>
+		<result column="MEM_HOBBY" jdbcType="VARCHAR" property="memHobby"/>
+		<result column="MEM_RLG" jdbcType="VARCHAR" property="memRlg"/>
+		<result column="MEM_ORIGINAL_IMAGE" jdbcType="VARCHAR" property="memOriginalImage"/>
+		<result column="MEM_STORE_IMAGE" jdbcType="VARCHAR" property="memStoreImage"/>
+		<result column="MEM_EXP" jdbcType="TIMESTAMP" property="memExp"/>
+		<result column="MEM_MAT" jdbcType="VARCHAR" property="memMat"/>
+	
+	</resultMap>
+	
+	<select id="selectPaidMember" parameterType="app.domain.StartEndPageDTO" resultMap="member">
+		select *
+		from(select rownum rn, <include refid="column"/>, MEM_MAT
+			from(select m.MEM_ID, MEM_NAME, MEM_BIRTH, MEM_ADDR, MEM_TEL, 
+						MEM_EMAIL, MEM_PASS, MEM_GENDER, MEM_REGIST, MEM_JOINOK, MEM_MAT
+					from member m join memberadd a
+					on a.mem_id=m.mem_id
+					where a.mem_exp is not null
+					order by MEM_REGIST desc))
+		where rn &gt;= #{startPage} and rn &lt;= #{endPage}
+	
+	</select>
+	
+	<select id="selectAddInfo" parameterType="string" resultMap="memAdd">
+		SELECT <include refid="col_memadd"/> 
+		FROM MEMBERADD 
+		WHERE MEM_ID=#{memId}
+	
+	</select>
+	
+	
+	
+	
+	<insert id="insertMember" parameterType="app.admin.matching.domain.MemberDTO">
+		insert into member (<include refid="column"/>)
+		values(#{memId},#{memName},#{memBirth},#{memAddr},
+				#{memTel},#{memEmail},#{memPass},#{memGender},sysdate, null)
+	</insert>
+	
+	<insert id="insertMemberAdd" parameterType="app.admin.matching.domain.MemberAddDTO">
+		MERGE INTO MEMBERADD
+		USING DUAL
+		ON (MEM_ID=#{memId})
+		WHEN MATCHED THEN
+			UPDATE SET  MEM_CAREER=#{memCareer}, 
+						MEM_JOB=#{memJob}, 
+						MEM_SALARY=#{memSalary}, 
+						MEM_HGT=#{memHgt},
+						MEM_WGT=#{memWgt}, 
+						MEM_BLOOD=#{memBlood}, 
+						MEM_HOBBY=#{memHobby}, 
+						MEM_RLG=#{memRlg}, 
+						MEM_ORIGINAL_IMAGE=#{memOriginalImage},
+						MEM_STORE_IMAGE=#{memStoreImage}
+		WHEN NOT MATCHED THEN
+			insert(<include refid="col_memadd"/>)
+			values(#{memId}, #{memCareer},#{memJob},#{memSalary},#{memHgt},
+					#{memWgt},#{memBlood},#{memHobby},#{memRlg},#{memOriginalImage},
+					#{memStoreImage},null,0)
+	</insert>
+	<resultMap type="app.admin.matching.domain.MemberDTO" id="member">
+		<id column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+		<result column="MEM_NAME" jdbcType="VARCHAR" property="memName"/>
+		<result column="MEM_BIRTH" jdbcType="VARCHAR" property="memBirth"/>
+		<result column="MEM_ADDR" jdbcType="VARCHAR" property="memAddr"/>
+		<result column="MEM_TEL" jdbcType="VARCHAR" property="memTel"/>
+		<result column="MEM_EMAIL" jdbcType="VARCHAR" property="memEmail"/>
+		<result column="MEM_PASS" jdbcType="VARCHAR" property="memPass"/>
+		<result column="MEM_GENDER" jdbcType="VARCHAR" property="memGender"/>
+		<result column="MEM_REGIST" jdbcType="TIMESTAMP" property="memRegist"/>
+		<association property="memberAdd" javaType="app.admin.matching.domain.MemberAddDTO" resultMap="memAdd"/>
+	</resultMap>
+	
+	<select id="selectMember" parameterType="app.domain.StartEndPageDTO" resultMap="member">
+		select *
+		from(select rownum rn, <include refid="column"/>
+			from(select <include refid="column"/>
+				from member
+				<trim prefix="where" prefixOverrides="AND | OR">
+					<if test="userId != null">
+						MEM_ID=#{userId}
+					</if>
+				</trim>
+				order by MEM_REGIST desc))
+		where rn &gt;= #{startPage} and rn &lt;= #{endPage}
+	
+	</select>
+	<select id="getMemberCount" parameterType="string" resultType="int">
+		select count(*) 
+		from member m join memberadd a
+		on m.mem_id=a.mem_id
+		<where>
+			<if test="value != null">
+				mem_exp is not null
+			</if>
+		</where>
+	</select>
+
+	<update id="updateJoinOk">
+		update member
+		set mem_joinok = #{num}
+		where mem_id = #{userId}
+			and mem_joinok is null
+	</update>
+	
+	<select id="findId" parameterType="app.domain.UserIdChangeDTO" resultType="string">
+		SELECT mem_id
+		FROM member
+		WHERE mem_name = #{userName}
+			AND mem_email = #{userEmail}
+			AND mem_tel = #{userTel}
+	</select>
+	
+	<update id="changePw" parameterType="app.domain.UserPwChangeDTO">
+		UPDATE member
+		SET mem_pass = #{newPw}
+		WHERE mem_id = #{userId}
+			AND mem_name = #{userName}
+			AND mem_email = #{userEmail}
+	</update>
+	
+	<update id="updateMember" parameterType="app.admin.matching.domain.MemberDTO">
+		UPDATE member
+		<trim prefix="set" suffixOverrides=",">
+			<if test="memEmail != null">
+				mem_email = #{memEmail},
+			</if>
+			<if test="memName != null">
+				mem_name = #{memName},
+			</if>
+			<if test="memTel != null">
+				mem_tel = #{memTel},
+			</if>
+			<if test="memAddr != null">
+				mem_addr = #{memAddr},
+			</if>
+		</trim>
+		WHERE mem_id = #{memId}
+	</update>
+	
+	<update id="updateMemberAdd" parameterType="string">
+		update memberadd
+		set mem_exp=sysdate+365
+		where mem_id=#{value}
+	</update>
+	<select id="selectExpireDate" parameterType="string" resultType="string">
+		SELECT MEM_EXP
+		FROM MEMBERADD
+		WHERE MEM_ID=#{value} and MEM_EXP>sysdate
+		
+	</select>
+	
+	
+	
+</mapper>

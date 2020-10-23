@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/matching/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">매칭현황 리스트</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<div class="row">
+	        				<div class="col-sm-12">
+			        			<!-- Page 컨텐츠 영역 -->
+								<table class="table table-bordered">
+									<colgroup>
+										<col style="width:80px;" />
+										<col />
+										<col />
+										<col />
+									</colgroup>
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>매칭번호</th>
+											<th>매칭회원</th>
+											<th>상대회원</th>
+											<th>매칭날짜</th>
+											<th>성사여부</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="list, i:${matchList}">
+											<th>[[${i.count}]]</th>
+											<td><a th:href="@{matchView(matNo=${list.matNo},id=${list.partnerId})}">[[${list.matNo}]]</a></td>
+											<td>[[${list.memId}]]</td>
+											<td>[[${list.partnerId}]]</td>
+											<td>[[${list.matDate}]]</td>
+											<td>[[${list.matCheck}]]</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<!-- <nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-end">
+								<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</nav> -->
+						
+						<th:block th:replace="fragments/admin/includePage :: pagingFragment"></th:block>
+						 
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

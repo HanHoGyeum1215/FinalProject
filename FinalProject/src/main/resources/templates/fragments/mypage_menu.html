@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="mypageMenuFragment(active)">
+		<div class="sidebar nobottommargin clearfix">
+			<div class="sidebar-widgets-wrap">
+				<div class="widget widget_links clearfix">
+
+					<h4>Menu</h4>
+					<ul>
+						<li th:classappend="${active eq 'myinfo'} ? active : no-active"><a th:href="@{/mypage/myinfo/{id}(id=${ session.authInfo.Id })}"><div>내 정보</div></a></li>
+						<li th:classappend="${active eq 'course'} ? active : no-active"><a th:href="@{/mypage/course/}"><div>데이트 코스 마이페이지</div></a></li>
+						<li><a href="javascript:alert('준비중 입니다.')"><div>쇼핑몰 마이페이지</div></a></li>
+						<!-- <li th:classappend="${active eq 'mall'} ? active : no-active"><a th:href="@{/mypage/mall/}"><div>쇼핑몰 마이페이지</div></a></li> -->
+						<li th:classappend="${active eq 'matching'} ? active : no-active"><a th:href="@{/mypage/matching/}"><div>매칭 마이페이지</div></a></li>
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+    </th:block>
+</html>

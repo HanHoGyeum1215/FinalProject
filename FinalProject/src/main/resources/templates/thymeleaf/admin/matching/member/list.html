@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="fragments/admin/head :: headFragment">
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Final
+	Project</title>
+</head>
+<body>
+	<th:block layout:fragment="content" class="content">
+		<table class="table table-bordered">
+			<colgroup>
+				<col style="width: 80px;" />
+				<col />
+				<col />
+				<col />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>아이디</th>
+					<th>매칭잔여횟수</th>
+					<th>이름</th>
+					<th>전화번호</th>
+					<th>성별</th>
+					<th>매칭회원선택</th>
+					<th>상대회원선택</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list , i: ${memberList}">
+					<th>[[${i.count}]]</th>
+					<td>[[${list.memId}]]</td>
+					<td>[[6-${list.memberAdd.memMat}]]</td>
+
+					<td>[[${list.memName}]]</td>
+					<td>[[${list.memTel}]]</td>
+					<td>[[${list.memGender}]]</td>
+					<td><input type="button" class="btn btn-primary" value="선택"
+						th:onclick="'javascript:confirm_id(\'' + ${list.memId} + '\');'" /></td>
+					<td><input type="button" class="btn btn-primary" value="선택"
+						th:onclick="'javascript:confirm_id2(\'' + ${list.memId} + '\');'" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<th:block th:replace="fragments/admin/includePage :: pagingFragment"></th:block>
+		
+		<script>
+		function confirm_id(id) {
+			opener.document.getElementById("memId").value = id;
+			alert("회원이 선택되었습니다. 상대회원을 선택해주세요");
+
+		}
+		function confirm_id2(partnerId) {
+			opener.document.getElementById("partnerId").value = partnerId;
+			window.close();
+		}
+	</script>
+		
+	</th:block>
+</body>
+</html>

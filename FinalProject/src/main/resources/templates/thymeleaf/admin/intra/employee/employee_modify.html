@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/intra/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">직원 수정</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+	        			<form th:action="@{../employeeModifyPro}" method="post" th:object="${intraEmployeeCommand}">
+	        				<input type="hidden" name="empId" th:value="${intraEmployeeCommand.empId}" />
+	        				<input type="hidden" name="depChk" th:value="${depChk}" />
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						아이디
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<p class="form-control-plaintext">
+	        							[[${intraEmployeeCommand.empId}]]
+	        						</p>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						부서
+	        					</label>
+	        					<div class="col-sm-10">
+									<select class="form-control" name="depNo">
+										<th:block th:each="deps: ${depList}">
+											<option th:value="${deps.depNo}" th:selected="${deps.depNo eq depChk}">[[${deps.depName}]]</option>
+										</th:block>
+									</select>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						비밀번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="password" name="empPass" class="form-control" th:classappend="${#fields.hasErrors('empPass')} ? is-invalid : no-class" th:field="*{empPass}" >
+	        						<div class="invalid-feedback" th:if="${#fields.hasErrors('empPass')}" th:errors="*{empPass}"></div>
+	        						<div style="display:block;" class="invalid-feedback" th:if="${valid_Pw != null}" th:text="${valid_Pw}"></div>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						이름
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="empName" class="form-control" th:classappend="${#fields.hasErrors('empName')} ? is-invalid : no-class" th:field="*{empName}">
+	        						<div class="invalid-feedback" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						이메일
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="empEmail" class="form-control" th:classappend="${#fields.hasErrors('empEmail')} ? is-invalid : no-class" th:field="*{empEmail}">
+	        						<div class="invalid-feedback" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></div>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						전화번호
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="empTel" class="form-control" th:classappend="${#fields.hasErrors('empTel')} ? is-invalid : no-class" th:field="*{empTel}" maxlength="13">
+	        						<div class="invalid-feedback" th:if="${#fields.hasErrors('empTel')}" th:errors="*{empTel}"></div>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						직무
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="text" name="empDuty" class="form-control" th:field="*{empDuty}">
+	        					</div>
+	        				</div>
+	        				<div class="btn-group float-sm-right">
+	        					<button type="submit" class="btn btn-primary">확인</button>
+	        				</div>
+	        			</form>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

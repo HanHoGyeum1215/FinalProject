@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/admin/matching/default">
+<head>
+<title>Admin</title>
+<!-- 페이지 css -->
+<th:block layout:fragment="css">
+	<style></style>
+</th:block>
+
+<!-- 페이지 js -->
+<th:block layout:fragment="js">
+	<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+	<script>
+		function openZipSearch() {
+            new daum.Postcode({
+               oncomplete: function(data) {
+            	   var fullAddr = data.address; // 최종 주소 변수
+                   var extraAddr = ''; // 조합형 주소 변수
+    
+                   // 기본 주소가 도로명 타입일때 조합한다.
+                   if(data.addressType === 'R'){
+                       //법정동명이 있을 경우 추가한다.
+                       if(data.bname !== ''){
+                           extraAddr += data.bname;
+                       }
+                       // 건물명이 있을 경우 추가한다.
+                       if(data.buildingName !== ''){
+                           extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                       }
+                       // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                       fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            	   
+                  $('[name=matLoc]').val(fullAddr);
+                  $('[name=zip]').val(data.zonecode); // 우편번호 (5자리)
+                  $('[name=addr1]').val(data.address);
+                  $('[name=addr2]').val(data.buildingName);
+               }
+               }
+            }).open();
+         }
+	
+	$(function(){
+		  $("#btn").click(function(){
+
+		    //부모창의 id가 id인 input 태그에 'dragon' 이라는 문자열 저장하기
+		  
+					window.open("/admin/matching/member/List", "width=300,height=200,left=550,top=200");
+				});
+
+		    self.close();
+		  });
+		
+	
+	</script>
+</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">이상형 찾기</h1>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- Page 컨텐츠 영역 -->
+						<form th:action="surveyWritePro" method="post" name="frm" th:object="${surveyCommand}">
+							<div class="form-group row">
+	        					<label for="surAge" class="col-sm-2 col-form-label">
+	        						나이대
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surAge" name="surAge" class="form-control">
+										<option selected value="">관계없음</option>
+										<option value='20'>20대</option>
+										<option value='30'>30대</option>
+										<option value='40'>40대</option>
+										<option value='50'>50대</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surCareer" class="col-sm-2 col-form-label">
+	        						학력
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surCareer" name="surCareer" class="form-control">
+										<option selected value="">관계없음</option>
+										<option >고졸</option>
+										<option >전문학사</option>
+										<option >학사</option>
+										<option >석사</option>
+										<option >박사</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surJob" class="col-sm-2 col-form-label">
+	        						직업군
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surJob" name="surJob" class="form-control">
+										<option selected value="">관계없음</option>
+										<option >무직</option>
+										<option >사무직</option>
+										<option >금융직</option>
+										<option >기술직</option>
+										<option >의료계</option>
+										<option >언론계</option>
+										<option >교사</option>
+										<option >공무원</option>
+										<option >공사직</option>
+										<option >자영업</option>
+										<option >예능계</option>
+										<option >서비스</option>
+										<option >전문직</option>	
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surSalary" class="col-sm-2 col-form-label">
+	        						연봉
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surSalary" name="surSalary" class="form-control">
+										<option selected value="">관계없음</option>
+										<option value='2000'>2000만원이상</option>
+										<option value='3000'>3000만원이상</option>
+										<option value='4000'>4000만원이상</option>
+										<option value='5000'>5000만원이상</option>
+										<option value='6000'>6000만원이상</option>
+										<option value='7000'>7000만원이상</option>
+										<option value='8000'>8000만원이상</option>
+										<option value='9000'>9000만원이상</option>
+										<option value='10000'>1억원이상</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surBlood" class="col-sm-2 col-form-label">
+	        						혈액형
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surBlood" name="surBlood" class="form-control">
+										<option selected value="">관계없음</option>
+										<option >A형</option>
+										<option >B형</option>
+										<option >AB형</option>
+										<option >O형</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surHgt" class="col-sm-2 col-form-label">
+	        						키
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surHgt" name="surHgt" class="form-control">
+										<option selected value="">관계없음</option>
+										<option value='140'>140cm이상</option>
+										<option value='150'>150cm이상</option>
+										<option value='160'>160cm이상</option>
+										<option value='170'>170cm이상</option>
+										<option value='180'>180cm이상</option>
+										<option value='190'>190cm이상</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surWgt" class="col-sm-2 col-form-label">
+	        						몸무게
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surWgt" name="surWgt" class="form-control">
+										<option selected value="">관계없음</option>
+										<option value='50'>50kg미만</option>
+										<option value='60'>60kg미만</option>
+										<option value='70'>70kg미만</option>
+										<option value='80'>80kg미만</option>
+										<option value='90'>90kg미만</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surHobby" class="col-sm-2 col-form-label">
+	        						취미
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surHobby" name="surHobby" class="form-control">
+										<option selected value="">관계없음</option>
+										<option >등산</option>
+										<option >독서</option>
+										<option >음악감상</option>
+										<option >게임</option>
+										<option >운동</option>
+										<option >영화관람</option>
+										<option >여행</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="surRlg" class="col-sm-2 col-form-label">
+	        						종교
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="surRlg" name="surRlg" class="form-control">
+										<option selected value="">관계없음</option>
+										<option >무교</option>
+										<option >기독교</option>
+										<option >천주교</option>
+										<option >불교</option>
+										<option >이슬람교</option>
+									</select>
+	        					</div>
+	        				</div>
+							
+							<div class="btn-group float-sm-right">
+								<button type="submit" class="btn btn-primary">찾기</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="vendor/jquery-ui/jquery-ui.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header id="header">
+    
+  </header>
+  <div class="main">
+
+    <section class="signup">
+      <div class="container">
+        <div class="signup-content">
+          <form method="POST" id="signup-form" class="signup-form">
+            <h1>회원가입</h1>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="id">id</label>
+                <input type="text" class="form-input" name="id" id="id" />
+              </div>
+              <div class="form-group">
+                <input type="button" name="idsubmit" id="idsubmit" class="overlap-submit" value="중복검사" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-input" name="password" id="password" />
+              </div>
+              <div class="form-group">
+                <label for="re_password"> 비밀번호확인</label>
+                <input type="password" class="form-input" name="re_password" id="re_password" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="name">이름</label>
+              <input type="text" class="form-input" name="name" id="name" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone_number" class="phonenum">Phone number</label>
+                <input type="text" class="form-phoneinput" value="010" readonly />
+              </div>
+              <div class="form-group">
+                <br>
+                <input type="text" class="form-phoneinput" maxlength="4" name="uPhone1" required />
+              </div>
+              <div class="form-group">
+                <br>
+                <input type="text" class="form-phoneinput" maxlength="4" name="uPhone2" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group form-icon">
+                <label for="uBirthStr">Birth date</label>
+                <input type="text" class="form-input" name="uBirthStr" id="uBirthStr" placeholder="YYYY-MM-DD" />
+              </div>
+              <div class="form-radio">
+                <label for="uGender">Gender</label>
+                <div class="form-flex">
+                  <input type="radio" name="uGender" value="남" id="male" checked="checked" />
+                  <label for="male">남</label>
+                  <input type="radio" name="uGender" value="여" id="female" />
+                  <label for="female">여</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-input" name="uEmail" id="email" />
+              </div>
+              <div class="form-group">
+                <input type="button" name="emailsubmit" id="emailsubmit" class="overlap-submit" value="인증번호발송" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email인증번호입력</label>
+                <input type="text" class="form-input" name="uEmail2" />
+              </div>
+              <div class="form-group">
+                <input type="button" name="emailsubmit" id="sendCheck" class="overlap-submit" value="인증번호확인" placeholder="인증번호를 입력하세요" />
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="submit" id="join" class="form-submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+
+
+
+
+  <!-- JS -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+  <script src="vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="vendor/jquery-validation/dist/additional-methods.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.admin.course.mapper.PartnerMapper" >
+<sql id="baseColumn">
+		VEN_ID, VEN_PASS, VEN_NAME, VEN_TEL, VEN_NO, VEN_ADDR, VEN_CEO, VEN_CDATE, VEN_ACNT, VEN_ACNTNO, VEN_OK
+</sql>	
+<insert id="insertPartner" parameterType="app.admin.course.domain.PartnerDTO">
+	insert into vendor ( <include refid="baseColumn" />  )
+		values(#{venId},#{venPass},#{venName},#{venTel},#{venNo},#{venAddr},#{venCeo},#{venCdate},#{venAcnt},#{venAcntNo},#{venOk})
+</insert>
+	<resultMap type="app.admin.course.domain.PartnerDTO" id="basePartner" >
+		<constructor>
+			<idArg column="VEN_ID" javaType="string" />
+			<arg column="VEN_PASS" javaType="string" />
+			<arg column="VEN_NAME" javaType="string" />
+			<arg column="VEN_TEL" javaType="string" />
+			<arg column="VEN_NO" javaType="string" />
+			<arg column="VEN_ADDR" javaType="string" />
+			<arg column="VEN_CEO" javaType="string" />
+			<arg column="VEN_CDATE" javaType="java.sql.Timestamp"/>
+			<arg column="VEN_ACNT" javaType="string" />
+			<arg column="VEN_ACNTNO" javaType="string" />
+			<arg column="VEN_OK" javaType="string" />
+		</constructor>
+	</resultMap>
+<select id="selectPartner" parameterType="app.admin.course.domain.PartnerDTO" resultMap="basePartner">
+select * 
+from(select rownum rn, <include refid="baseColumn" />
+	from(  select <include refid="baseColumn" />  
+			from vendor
+			<where>
+				<if test="venId != null">
+					VEN_ID = #{venId} 
+				</if>
+			</where>
+			order by VEN_CDATE desc))
+	<where>
+		<if test="startEndPageDTO != null">
+				rn between #{startEndPageDTO.startPage} 
+			and #{startEndPageDTO.endPage}
+		</if>
+	</where>
+</select>
+<select id="partnerCount" resultType="int">
+		select count(*) from vendor
+</select>
+<delete id="partnerDelete" parameterType="string">
+	delete from vendor
+	<where>
+		VEN_ID = #{venId} 
+	</where>
+</delete>
+
+</mapper>
+
+

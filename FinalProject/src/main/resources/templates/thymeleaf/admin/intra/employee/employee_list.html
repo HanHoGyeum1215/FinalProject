@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/intra/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">직원 리스트</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<div class="row">
+	        				<div class="col-sm-12 col-md-6"></div>
+	        				<div class="col-sm-12 col-md-6">
+	        					<div class="float-right mb-2">
+	        						Total: [[${count}]]
+	        					</div>
+	        				</div>
+	        			</div>
+	        			<div class="row">
+	        				<div class="col-sm-12">
+			        			<!-- Page 컨텐츠 영역 -->
+								<table class="table table-bordered">
+									<colgroup>
+										<col style="width:80px;" />
+										<col />
+										<col style="width:200px;"/>
+										<col style="width:150px;" />
+										<col style="width:150px;" />
+									</colgroup>
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>아이디</th>
+											<th>이름</th>
+											<th>부서</th>
+											<th>전화번호</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:if="${employeeList != null}">
+											<tr th:each="list ,i: ${employeeList}">
+												<th>[[${i.count}]]</th>
+												<td>
+													<a th:href="@{employeeView/{id}(id=${list.empId})}">[[${list.empId}]]</a>
+												</td>
+												<td>[[${list.empName}]]</td>
+												<td>[[${list.department.depName}]]</td>
+												<td>[[${list.empTel}]]</td>
+											</tr>
+										</th:block>
+										<th:block th:if="${employeeList == null}">
+											<tr>
+												<td colspan="9" class="text-center">등록된 직원이 없습니다.</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<!-- 페이지네이션 -->
+						<th:block th:replace="fragments/admin/includePage :: pagingFragment"></th:block>
+						
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

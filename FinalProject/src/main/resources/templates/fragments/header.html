@@ -1,0 +1,78 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="headerFragment">
+	
+	<header id="header" class="no-sticky">
+
+		<div id="header-wrap">
+
+			<div class="container clearfix">
+
+				<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+				<!-- Logo
+				============================================= -->
+				<div id="logo">
+					<a href="/" class="standard-logo" data-dark-logo="/images/logo-dark.png"><img src="/images/logo.png" alt="Canvas Logo"></a>
+					<a href="/" class="retina-logo" data-dark-logo="/images/logo-dark@2x.png"><img src="/images/logo@2x.png" alt="Canvas Logo"></a>
+				</div><!-- #logo end -->
+
+				<!-- Primary Navigation
+				============================================= -->
+				<nav id="primary-menu">
+					<ul>
+						<li><a href="/course/goods/goodsList?type=1"><div>데이트 코스</div></a>
+							<ul>
+								<li><a href="/course/goods/goodsList?type=2">패키지 코스</a></li>
+								<li><a href="/course/goods/goodsList?type=1">단일 코스</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:alert('준비중 입니다.');"><div>쇼핑몰</div></a>
+							<ul>
+								<li><a href="javascript:alert('준비중 입니다.');">상품목록</a></li>
+								<li><a href="javascript:alert('준비중 입니다.');">리뷰게시판</a></li>
+							</ul>
+						</li>
+						<!-- 
+						<li><a href="/mall/goods/goodsList"><div>쇼핑몰</div></a>
+							<ul>
+								<li><a href="/mall/goods/goodsList">상품목록</a></li>
+								<li><a href="/mall/board/reviewList">리뷰게시판</a></li>
+							</ul>
+						</li>
+						 -->
+						<li><a href="/matching/survey/surveyWrite"><div>매칭 서비스</div></a>
+							<ul>
+								<li><a href="/matching/survey/surveyWrite">이상형 찾기</a></li>
+								<li><a href="/matching/event/eventList">이벤트</a></li>
+							</ul>
+						
+						</li>
+						<th:block th:if="${ session.authInfo == null }">
+							<li><a href="/login"><div>로그인</div></a></li>
+						</th:block>
+						<th:block th:if="${ session.authInfo != null }">
+							<li><a href="/logout2"><div>로그아웃</div></a></li>
+							<li><a th:href="@{/mypage/myinfo/{id}(id=${ session.authInfo.Id })}"><div>마이페이지</div></a>
+						</th:block>
+					</ul>
+					
+					<!-- <div id="top-cart">
+						<a href="#" id="top-cart-trigger"><i class="icon-shopping-cart"></i><span>5</span></a>
+					</div>
+
+					<div id="top-search">
+						<a href="#" id="top-search-trigger"><i class="icon-search3"></i><i class="icon-line-cross"></i></a>
+						<form action="search.html" method="get">
+							<input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter..">
+						</form>
+					</div> -->
+
+				</nav>
+
+			</div>
+
+		</div>
+
+	</header>
+	</th:block>
+</html>

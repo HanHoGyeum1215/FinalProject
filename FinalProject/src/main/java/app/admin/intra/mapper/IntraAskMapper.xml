@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="app.admin.intra.mapper.IntraAskMapper">
+  <sql id="baseColumns">
+  	ASK_NO,
+  	EMP_ID,
+  	ASK_SUB,
+  	ASK_CONT,
+  	ASK_DATE,
+  	ASK_COUNT,
+  	ASK_ORIGIN_FILE,
+  	ASK_STORE_FILE,
+  	ASK_SIZE
+  </sql>
+    <insert id="insertAsk" parameterType="app.admin.intra.domain.IntraAskDTO">
+  insert into ASK(
+	  	<include refid="baseColumns" />
+  	)
+  values(
+	  	NUM_SEQ.nextval,
+	  	#{empId},
+	  	#{askSub},
+	  	#{askCont},
+	  	SysDate,
+	  	0,
+	  	#{askOriginFile},
+	  	#{askStoreFile},
+	  	#{askSize}
+	 )
+  </insert>
+	
+	 <select id="countAsk" resultType="int">
+		select count(*) from ASK
+	</select>
+	
+		 <insert id="insertAnswer" parameterType="app.admin.intra.domain.IntraAnswerDTO">
+  insert into ANSWER(
+  SEMP_ID,
+  ANS_CONT,
+  ASK_NO,
+  CREATE_AT
+  )
+  values(
+  	#{sempId},
+  	#{ansCont},
+  	#{askNo},
+  	sysDate
+  )
+    </insert>
+    
+    <select id="listAsk" parameterType="app.domain.StartEndPageDTO" resultMap="bbb">
+    	select *
+    	from (
+    		select rownum rn, <include refid="baseColumns" />
+    		from (
+    			select *
+    			from ask
+    			order by ASK_DATE
+    		)
+    	)
+		where rn between #{startPage} 
+		and #{endPage}
+    </select>
+    
+    <resultMap type="app.admin.intra.domain.IntraAskDTO" id="bbb">
+		<id column="ASK_NO" jdbcType="BIGINT" property="askNo" />
+		<id column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+		<result column="ASK_SUB" jdbcType="VARCHAR"	property="askSub" />
+		<result column="ASK_CONT" jdbcType="VARCHAR" property="askCont" />
+		<result column="ASK_DATE" jdbcType="TIMESTAMP" property="askDate" />
+		<result column="ASK_COUNT" jdbcType="BIGINT" property="askCount" />
+		<result column="ASK_ORIGIN_FILE" jdbcType="VARCHAR"	property="askOriginFile" />
+		<result column="ASK_STORE_FILE" jdbcType="VARCHAR" property="askStoreFile" />
+		<result column="ASK_SIZE" jdbcType="VARCHAR" property="askSize" />
+	</resultMap>
+		
+	<select id="detailAsk" parameterType="int" resultMap="ccc">
+		select  	
+			F.ASK_NO,
+		  	F.EMP_ID,
+		  	ASK_SUB,
+		  	ASK_CONT,
+		  	ASK_DATE,
+		  	ASK_COUNT,
+		  	ASK_ORIGIN_FILE,
+		  	ASK_STORE_FILE,
+		  	ASK_SIZE,
+		  	ANS_CONT,
+		  	SEMP_ID,
+		  	CREATE_AT
+		from ask F left outer join answer S
+		on F.ASK_NO = S.ASK_NO
+		where F.ASK_NO = #{askNo}
+	</select>
+	  
+  	<resultMap type="app.admin.intra.domain.IntraAskDTO" id="ccc">
+		<id column="ASK_NO" jdbcType="BIGINT" property="askNo" />
+		<id column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+		<result column="ASK_SUB" jdbcType="VARCHAR"	property="askSub" />
+		<result column="ASK_CONT" jdbcType="VARCHAR" property="askCont" />
+		<result column="ASK_DATE" jdbcType="TIMESTAMP" property="askDate" />
+		<result column="ASK_COUNT" jdbcType="BIGINT" property="askCount" />
+		<result column="ASK_ORIGIN_FILE" jdbcType="VARCHAR"	property="askOriginFile" />
+		<result column="ASK_STORE_FILE" jdbcType="VARCHAR" property="askStoreFile" />
+		<result column="ASK_SIZE" jdbcType="VARCHAR" property="askSize" />
+		<collection 
+			property="answerlist"	
+			ofType="app.admin.intra.domain.IntraAnswerDTO"	
+			resultMap="fff" />
+	</resultMap>
+	<resultMap type="app.admin.intra.domain.IntraAnswerDTO" id="fff">
+	  <result column="SEMP_ID" jdbcType="VARCHAR" property="sempId"/>		
+	  <result column="ANS_CONT" jdbcType="VARCHAR" property="ansCont"/>
+	  <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+	</resultMap>
+	
+
+	
+	<update id="updateAsk" parameterType="app.admin.intra.domain.IntraAskDTO" >
+	update ask
+	set ASK_SUB = #{askSub}, ASK_CONT = #{askCont} 
+	where ASK_NO = #{askNo} 
+	</update>
+	
+	<delete id="deleteAsk"  parameterType="app.admin.intra.domain.IntraAskDTO" >
+	delete from ask
+	where ASK_NO = #{askNo}
+	</delete>
+    
+	
+	
+  </mapper>
+  
+ 
+	  
+  

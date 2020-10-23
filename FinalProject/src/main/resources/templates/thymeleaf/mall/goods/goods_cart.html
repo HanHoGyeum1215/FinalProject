@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>CART</h1>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<div class="table-responsive bottommargin">
+
+					<table class="table cart">
+						<thead>
+							<tr>
+								<th class="cart-product-remove">&nbsp;</th>
+								<th class="cart-product-thumbnail">&nbsp;</th>
+								<th class="cart-product-name t400">상품명</th>
+								<th class="cart-product-price t400">개당 금액</th>
+								<th class="cart-product-quantity t400">수량</th>
+								<th class="cart-product-subtotal t400">총 금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="cart_item">
+								<td class="cart-product-remove">
+									<a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+								</td>
+
+								<td class="cart-product-thumbnail">
+									<a href="#"><img width="64" height="64" src="https://via.placeholder.com/270" alt="Pink Printed Dress"></a>
+								</td>
+
+								<td class="cart-product-name">
+									<a href="#">Pink Printed Dress</a>
+								</td>
+
+								<td class="cart-product-price">
+									<span class="amount">$19.99</span>
+								</td>
+
+								<td class="cart-product-quantity">
+									<div class="quantity clearfix">
+										<input type="button" value="-" class="minus">
+										<input type="text" name="quantity" value="2" class="qty" />
+										<input type="button" value="+" class="plus">
+									</div>
+								</td>
+
+								<td class="cart-product-subtotal">
+									<span class="amount">$39.98</span>
+								</td>
+							</tr>
+							<tr class="cart_item">
+								<td class="cart-product-remove">
+									<a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+								</td>
+
+								<td class="cart-product-thumbnail">
+									<a href="#"><img width="64" height="64" src="https://via.placeholder.com/270" alt="Checked Canvas Shoes"></a>
+								</td>
+
+								<td class="cart-product-name">
+									<a href="#">Checked Canvas Shoes</a>
+								</td>
+
+								<td class="cart-product-price">
+									<span class="amount">$24.99</span>
+								</td>
+
+								<td class="cart-product-quantity">
+									<div class="quantity clearfix">
+										<input type="button" value="-" class="minus">
+										<input type="text" name="quantity" value="1" class="qty" />
+										<input type="button" value="+" class="plus">
+									</div>
+								</td>
+
+								<td class="cart-product-subtotal">
+									<span class="amount">$24.99</span>
+								</td>
+							</tr>
+							<tr class="cart_item">
+								<td class="cart-product-remove">
+									<a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+								</td>
+
+								<td class="cart-product-thumbnail">
+									<a href="#"><img width="64" height="64" src="https://via.placeholder.com/270" alt="Pink Printed Dress"></a>
+								</td>
+
+								<td class="cart-product-name">
+									<a href="#">Blue Men Tshirt</a>
+								</td>
+
+								<td class="cart-product-price">
+									<span class="amount">$13.99</span>
+								</td>
+
+								<td class="cart-product-quantity">
+									<div class="quantity clearfix">
+										<input type="button" value="-" class="minus">
+										<input type="text" name="quantity" value="3" class="qty" />
+										<input type="button" value="+" class="plus">
+									</div>
+								</td>
+
+								<td class="cart-product-subtotal">
+									<span class="amount">$41.97</span>
+								</td>
+							</tr>
+							<tr class="cart_item">
+								<td colspan="6">
+									<div class="row clearfix">
+										<div class="col-md-12 col-xs-12 nopadding">
+											<a href="#" class="button button-3d notopmargin fright">Check Out</a>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+
+				<div class="row clearfix">
+					<div class="col-md-12 clearfix">
+						<div class="table-responsive">
+							<h4>Cart Totals</h4>
+
+							<table class="table cart">
+								<tbody>
+									<tr class="cart_item">
+										<td class="cart-product-name">
+											<strong class="t400">총 금액</strong>
+										</td>
+
+										<td class="cart-product-name">
+											<span class="amount">$106.94</span>
+										</td>
+									</tr>
+									<tr class="cart_item">
+										<td class="cart-product-name">
+											<strong class="t400">배송비</strong>
+										</td>
+
+										<td class="cart-product-name">
+											<span class="amount">무료</span>
+										</td>
+									</tr>
+									<tr class="cart_item">
+										<td class="cart-product-name">
+											<strong class="t400">결제 금액</strong>
+										</td>
+
+										<td class="cart-product-name">
+											<span class="amount color lead"><strong>$106.94</strong></span>
+										</td>
+									</tr>
+								</tbody>
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+    </th:block>
+</body>
+</html>

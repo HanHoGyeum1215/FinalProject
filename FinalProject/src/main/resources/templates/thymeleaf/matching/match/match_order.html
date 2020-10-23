@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/sub">
+<head>
+<title>User</title>
+<!-- 페이지 css -->
+<th:block layout:fragment="css">
+	<style></style>
+</th:block>
+
+<!-- 페이지 js -->
+<th:block layout:fragment="js">
+	<script type="text/javascript"
+		src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script>
+		$("#pay").click(function() {
+
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp41979243'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+			IMP.request_pay({
+				pg: 'kakao', 
+				pay_method: 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '유료회원 가입비',
+				amount : 100,
+				buyer_email : document.getElementById('shipping-form-address').value,
+				buyer_name : document.getElementById('shipping-form-name').value,
+				buyer_tel : document.getElementById('shipping-form-companyname').value,
+				buyer_addr : '주소없음',
+				buyer_postcode : '123-456',
+			}, function(rsp) {
+				if (rsp.success) {
+					var msg = '결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+					document.getElementById('payFrm').submit();
+
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+				}
+				alert(msg);
+			});
+		});
+	</script>
+
+</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+		<section id="page-title">
+
+			<div class="container clearfix">
+				<h1>CHECKOUT</h1>
+			</div>
+
+		</section>
+
+		<section id="content">
+
+			<div class="content-wrap">
+
+				<div class="container clearfix">
+
+					<form id="payFrm" name="shipping-form"
+						class="nobottommargin" action="orderPro" method="post">
+						<div class="row clearfix">
+							<div class="col-md-12">
+								<h3 class="">결제 정보</h3>
+
+
+
+								<div class="col_full">
+									<label for="shipping-form-name">구매자 성함:</label> <input
+										type="hidden" name="memId" th:value="${memberCommand.memId}" />
+									<input type="text" readonly="readonly" id="shipping-form-name"
+										name="shipping-form-name" th:value="${memberCommand.memName}"
+										class="sm-form-control" />
+								</div>
+
+
+								<div class="clear"></div>
+
+								<div class="col_full">
+									<label for="shipping-form-companyname">연락처:</label> <input
+										type="text" readonly="readonly" id="shipping-form-companyname"
+										name="shipping-form-companyname"
+										th:value="${memberCommand.memTel}" class="sm-form-control" />
+								</div>
+
+								<div class="col_full">
+									<label for="shipping-form-address">이메일:</label> <input
+										type="text" readonly="readonly" id="shipping-form-address"
+										name="shipping-form-address"
+										th:value="${memberCommand.memEmail}" class="sm-form-control" />
+								</div>
+
+
+								<div class="col_full">
+									<label for="shipping-form-message">요청사항 <small>*</small></label>
+									<textarea class="sm-form-control" id="shipping-form-message"
+										name="matPayReq" rows="6" cols="30"></textarea>
+								</div>
+
+
+							</div>
+							<div class="clear bottommargin"></div>
+							<div class="col-md-6">
+								<div class="table-responsive clearfix">
+									<h4>Your Orders</h4>
+
+									<table class="table cart">
+										<thead>
+											<tr>
+												<th class="cart-product-thumbnail">&nbsp;</th>
+												<th class="cart-product-name t400">상품명</th>
+												<th class="cart-product-quantity t400">수량</th>
+												<th class="cart-product-subtotal t400">금액</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="cart_item">
+												<td class="cart-product-thumbnail"><a href="#"><img
+														width="64" height="64"
+														src="/static/upload/match/MATCHING1.png"
+														alt="Pink Printed Dress"></a></td>
+
+												<td class="cart-product-name"><a href="#">유료 매칭서비스</a>
+												</td>
+
+												<td class="cart-product-quantity">
+													<div class="quantity clearfix">1</div>
+												</td>
+
+												<td class="cart-product-subtotal"><span class="amount">1,000,000원</span>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="table-responsive">
+									<h4>Cart Totals</h4>
+
+									<table class="table cart">
+										<tbody>
+											<tr class="cart_item">
+												<td class="notopborder cart-product-name"><strong
+													class="t400">총 금액</strong></td>
+
+												<td class="notopborder cart-product-name"><span
+													class="amount">1,000,000원</span></td>
+											</tr>
+											<tr class="cart_item">
+												<td class="cart-product-name"><strong class="t400">배송비</strong>
+												</td>
+
+												<td class="cart-product-name"><span class="amount">없음</span>
+												</td>
+											</tr>
+											<tr class="cart_item">
+												<td class="cart-product-name"><strong class="t400">결제
+														금액</strong></td>
+
+												<td class="cart-product-name"><span
+													class="amount color lead"><strong>1,000,000원</strong></span>
+													<input type="hidden" name="matPayPrice" value="1000000" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+								<div class="accordion clearfix">
+									<!-- <div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i><i
+											class="acc-open icon-remove-circle"></i>간편 결제
+									</div>
+									<div class="acc_content clearfix">
+										<input type="hidden" name="matPayWay" id="matPayWay"
+											value="card">
+									</div>
+								 <div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i><i
+											class="acc-open icon-remove-circle"></i>카드 결제
+									</div>
+									<div class="acc_content clearfix">
+										<input type="radio" name="matPayWay" id="matPayWay"
+											value="credit"> 선택
+									</div>
+									<div class="acctitle">
+										<i class="acc-closed icon-ok-circle"></i><i
+											class="acc-open icon-remove-circle"></i>실시간 계좌 이체
+									</div> -->
+									<div class="acc_content clearfix">
+										<input type="hidden" name="matPayWay" id="matPayWay"
+											value="card">
+									</div> 
+								</div>
+								<button type="button" id="pay" class="button button-3d fright">Place
+									Order</button>
+
+							</div>
+
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</section>
+	</th:block>
+</body>
+</html>

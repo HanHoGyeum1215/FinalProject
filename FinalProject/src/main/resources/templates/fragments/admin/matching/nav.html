@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="navFragment">
+		<!-- Sidebar -->
+	    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+	      <!-- Sidebar - Brand -->
+	      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/matching/">
+	        <div class="sidebar-brand-icon rotate-n-15">
+	          <i class="fas fa-laugh-wink"></i>
+	        </div>
+	        <div class="sidebar-brand-text mx-2">Match Admin</div>
+	      </a>
+
+	      <!-- Divider -->
+	      <hr class="sidebar-divider my-0">
+	
+	      <!-- Nav Item - Dashboard -->
+	      <li class="nav-item active">
+	        <a class="nav-link" href="/admin/matching/">
+	          <i class="fas fa-fw fa-tachometer-alt"></i>
+	          <span>Dashboard</span></a>
+	      </li>
+	
+	      <!-- Divider -->
+	      <hr class="sidebar-divider">
+	
+	      <!-- Heading -->
+	      <div class="sidebar-heading">
+	        Menu
+	      </div>
+	
+	      <li class="nav-item">
+	        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
+	          <i class="fas fa-fw fa-folder"></i>
+	          <span>매칭관리</span>
+	        </a>
+	        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	          <div class="bg-white py-2 collapse-inner rounded">
+	          	<a class="collapse-item" href="/admin/matching/match/matchWrite">매칭현황 등록</a>
+	            <a class="collapse-item" href="/admin/matching/match/matchList">매칭현황 리스트</a>
+	          </div>
+	        </div>
+	      </li>
+	      
+	      <li class="nav-item">
+	        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+	          <i class="fas fa-fw fa-folder"></i>
+	          <span>회원관리</span>
+	        </a>
+	        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	          <div class="bg-white py-2 collapse-inner rounded">
+	            <a class="collapse-item" href="/admin/matching/member/memberList">회원 리스트</a>
+	          </div>
+	        </div>
+	      </li>
+	      
+	      
+	      <li class="nav-item">
+	        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages">
+	          <i class="fas fa-fw fa-folder"></i>
+	          <span>이벤트</span>
+	        </a>
+	        <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	          <div class="bg-white py-2 collapse-inner rounded">
+	          	<a class="collapse-item" href="/admin/matching/event/eventWrite">이벤트 등록</a>
+	          	<a class="collapse-item" href="/admin/matching/event/eventList">이벤트 현황</a>
+	          </div>
+	        </div>
+	      </li>
+	      
+	      
+	
+	      <!-- Divider -->
+	      <hr class="sidebar-divider d-none d-md-block">
+	
+	      <!-- Sidebar Toggler (Sidebar) -->
+	      <div class="text-center d-none d-md-inline">
+	        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+	      </div>
+	
+	    </ul>
+	    <!-- End of Sidebar -->
+	</th:block>
+</html>

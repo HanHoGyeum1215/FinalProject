@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="app.admin.matching.mapper.EventMapper">
+	<sql id="eve_col">
+		EVE_NO, VEN_ID, EVE_LOC, EVE_DATE, EVE_MXCNT, 
+		EVE_SUBJECT, EVE_CONTENT, EVE_ORIGINAL_IMAGE, 
+		EVE_STORE_IMAGE, EVE_APPLICANT
+	</sql>
+	
+	<insert id="eventInsert" parameterType="app.admin.matching.domain.EventDTO">
+		INSERT INTO EVENT(<include refid="eve_col"/>)
+		VALUES(EVENT_SEQ.NEXTVAL,#{venId}, #{eveLoc}, #{eveDate}, #{eveMxCnt},
+				#{eveSubject}, #{eveContent}, #{eveOriginalImage}, #{eveStoreImage}, 0)
+	
+	</insert>
+	
+	<select id="selectEvent" parameterType="app.domain.StartEndPageDTO" resultMap="event">
+		SELECT *	
+		FROM(SELECT rownum rn, <include refid="eve_col"/> 
+			FROM(SELECT <include refid="eve_col"/> 
+				FROM EVENT
+				<where>
+					<if test="num != null">
+						EVE_NO=#{num}
+					</if>
+				</where>
+				ORDER BY EVE_DATE DESC))
+		WHERE rn &gt;= #{startPage} and rn &lt;= #{endPage}
+	
+	</select>
+	
+	<resultMap type="app.admin.matching.domain.EventDTO" id="event">
+		<id column="EVE_NO" jdbcType="BIGINT" property="eveNo"/>
+		<id column="VEN_ID" jdbcType="VARCHAR" property="venId"/>
+		<result column="EVE_LOC" jdbcType="VARCHAR" property="eveLoc"/>
+		<result column="EVE_DATE" jdbcType="TIMESTAMP" property="eveDate"/>
+		<result column="EVE_MXCNT" jdbcType="BIGINT" property="eveMxCnt"/>
+		<result column="EVE_SUBJECT" jdbcType="VARCHAR" property="eveSubject"/>
+		<result column="EVE_CONTENT" jdbcType="VARCHAR" property="eveContent"/>
+		<result column="EVE_ORIGINAL_IMAGE" jdbcType="VARCHAR" property="eveOriginalImage"/>
+		<result column="EVE_STORE_IMAGE" jdbcType="VARCHAR" property="eveStoreImage"/>
+		<result column="EVE_APPLICANT" jdbcType="BIGINT" property="eveApplicant"/>
+	</resultMap>
+	
+	<select id="getEventCount" resultType="int">
+		select count(*) from event
+	</select>
+	
+	<insert id="eventJoin" parameterType="app.admin.matching.domain.EventJoinDTO">
+		INSERT INTO JOIN(JO_NO, EVE_NO, JO_DATE, MEM_ID)
+		VALUES(EVENTJOIN_SEQ.NEXTVAL, #{eveNo}, sysdate, #{memId})
+		
+	
+	</insert>
+	
+	<update id="eventJoinApp" parameterType="string">
+		UPDATE EVENT
+		SET EVE_APPLICANT=EVE_APPLICANT+1
+		WHERE EVE_NO=#{value}
+	
+	</update>
+	
+	<update id="eventUpdate" parameterType="app.admin.matching.domain.EventDTO">
+		UPDATE EVENT
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="eveSubject != null">
+				EVE_SUBJECT=#{eveSubject},
+			</if>
+			<if test="eveContent != null">
+				EVE_CONTENT=#{eveContent},
+			</if>
+			<if test="eveDate != null">
+				EVE_DATE=#{eveDate},
+			</if>
+			<if test="eveLoc != null">
+				EVE_LOC=#{eveLoc},
+			</if>
+			<if test="eveMxCnt != null">
+				EVE_MXCNT=#{eveMxCnt},
+			</if>
+			<if test="eveOriginalImage != null">
+				EVE_ORIGINAL_IMAGE=#{eveOriginalImage},
+				EVE_STORE_IMAGE=#{eveStoreImage}
+			</if>
+		
+		</trim> 
+		WHERE EVE_NO=#{eveNo} and VEN_ID=#{venId}
+	
+	</update>
+	
+	<delete id="eventDel" parameterType="app.admin.matching.domain.EventDTO">
+		DELETE FROM EVENT
+		WHERE EVE_NO=#{eveNo} and VEN_ID=#{venId}
+	</delete>
+	</mapper>

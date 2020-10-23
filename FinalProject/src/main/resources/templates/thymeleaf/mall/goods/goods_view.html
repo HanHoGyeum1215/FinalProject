@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>상품이름이 들어갑니다</h1>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<div class="single-product">
+
+					<div class="product">
+
+						<div class="col_two_fifth">
+
+							<div class="product-image">
+								<div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
+									<div class="flexslider">
+										<div class="slider-wrap" data-lightbox="gallery">
+											<div class="slide"><a href="#" title="Pink Printed Dress - Front View" data-lightbox="gallery-item"><img src="https://via.placeholder.com/270" alt="Pink Printed Dress"></a></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col_three_fifth product-desc nomargin">
+
+							<div class="product-price">10,000원</div>
+
+							<div class="clear"></div>
+							<div class="line"></div>
+
+							<!-- Product Single - Quantity & Cart Button
+							============================================= -->
+							<form class="cart nobottommargin clearfix" method="post" enctype='multipart/form-data'>
+								<div class="quantity clearfix">
+									<input type="button" value="-" class="minus">
+									<input type="text" step="1" min="1"  name="quantity" value="1" title="Qty" class="qty" size="4" />
+									<input type="button" value="+" class="plus">
+								</div>
+								<a href="cart" class="add-to-cart button nomargin">Add to cart</a>
+								<a href="order" class="add-to-cart button nomargin">Buy</a>
+							</form><!-- Product Single - Quantity & Cart Button End -->
+
+							<div class="clear"></div>
+							<div class="line"></div>
+
+							<!-- Product Single - Short Description
+							============================================= -->
+							<p>
+								상품설명<br>
+								상품설명<br>
+								상품설명<br>
+								상품설명<br>
+							</p>
+							
+
+							<!-- Product Single - Meta
+							============================================= -->
+							<div class="panel panel-default product-meta">
+								<div class="panel-body">
+									<span itemprop="productID" class="sku_wrapper">No: <span class="sku">상품번호</span></span>
+									<span class="posted_in">Category: <a href="#" rel="tag">종류</a>.</span>
+								</div>
+							</div><!-- Product Single - Meta End -->
+
+						</div>
+						
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+    </th:block>
+</body>
+</html>

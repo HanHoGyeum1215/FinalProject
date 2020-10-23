@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/intra/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">직원 상세</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						아이디
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.empId}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						부서
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.department.depName}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						이름
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.empName}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						이메일
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.empEmail}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						전화번호
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.empTel}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						직무
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${intraEmployeeCommand.empDuty}]]
+        						</p>
+        					</div>
+        				</div>
+        				<div class="form-group row">
+        					<label for="" class="col-sm-2 col-form-label">
+        						생성일
+        					</label>
+        					<div class="col-sm-10">
+        						<p class="form-control-plaintext">
+        							[[${#dates.format(intraEmployeeCommand.createAt, 'yyyy-MM-dd')}]]
+        						</p>
+        					</div>
+        				</div>
+	        			<div class="btn-group float-sm-right">
+        					<a th:href="@{../employeeModify/{id}(id=${intraEmployeeCommand.empId}, depChk=${intraEmployeeCommand.department.depNo})}" class="btn btn-primary">수정</a>
+        					<a href="../employeeList" class="btn btn-primary">목록으로</a>
+        				</div>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

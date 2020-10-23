@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="app.admin.intra.mapper.IntraCommuteMapper">
+   <sql id="baseColumns">
+  COM_NO,
+  EMP_ID,
+  COM_DATE,
+  COM_GO,
+  COM_LEAVE,
+  COM_IP
+  </sql> 
+    
+  <insert id="insertCommute" parameterType="app.admin.intra.domain.IntraCommuteDTO">
+  insert into COMMUTE(<include refid="baseColumns" />)
+  values(
+  	NUM_SEQ.nextval,
+  	#{empId},
+  	SysDate,
+  	SysDate,
+  	null,
+  	#{comIp}
+  )
+   </insert>
+   	<update id="insertWorkOut"  parameterType="app.admin.intra.domain.IntraNoticeDTO">
+	update COMMUTE
+	set COM_LEAVE = SysDate
+	where EMP_ID = #{empId} 
+	</update>
+      
+  
+	<select id="commuteCount" resultType="int">
+		select count(*) from COMMUTE
+	</select>
+
+    
+     
+    
+ 
+  <resultMap type="app.admin.intra.domain.IntraCommuteDTO" id="bbb">
+		<id column="COM_NO" jdbcType="BIGINT" property="comNo" />
+		<id column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+		<result column="COM_DATE" jdbcType="TIMESTAMP"	property="comDate" />
+		<result column="COM_GO" jdbcType="TIMESTAMP" property="comGo" />
+		<result column="COM_LEAVE" jdbcType="TIMESTAMP" property="comLeave" />
+		<result column="COM_IP" jdbcType="VARCHAR" property="comIp" />
+	</resultMap>
+  
+  
+  <select id="commuteList" resultMap="bbb">
+  	select <include refid="baseColumns" />
+		from commute
+	</select>
+   
+   <select id ="commuteLists" parameterType="string" resultMap="bbb">
+   select <include refid="baseColumns"/>
+   from commute
+	where TO_CHAR(COM_DATE,'MM') = #{comDate}
+   </select>
+  
+  
+  </mapper>

@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="pagingFragment" th:with="start=${startPage}, last=${endPage}">
+	<ul class="pagination">
+	
+		<th:block th:if="${page <= 1 }"><li><a>«</a></li></th:block>
+		<th:block th:if="${page > 1 }">
+			 <li><a th:href="@{${pageUrl}(page=${page - 1})}">«</a></li>
+		</th:block>
+		
+		<th:block th:each="pageNum : ${#numbers.sequence(start, last)}">
+			<li><a th:href="@{${pageUrl}(page=${pageNum})}">[[${pageNum}]]</a></li>
+		</th:block>
+		
+		<th:block th:if="${page < maxPage }">
+			<li><a th:href="@{${pageUrl}(page=${page + 1})}">»</a></li>
+		</th:block>
+		<th:block th:if="${page >= maxPage }">
+			<li><a>»</a></li>
+		</th:block>
+	  
+	</ul>
+</th:block>
+</html>

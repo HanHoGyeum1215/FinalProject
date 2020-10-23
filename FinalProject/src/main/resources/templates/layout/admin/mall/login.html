@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="fragments/admin/head :: headFragment">
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Final Project</title>
+</head>
+<body class="bg-gradient-primary sidebar-toggled">
+	<th:block layout:fragment="content"></th:block>
+</body>
+</html>

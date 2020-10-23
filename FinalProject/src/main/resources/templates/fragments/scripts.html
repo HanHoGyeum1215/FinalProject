@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="scriptFragment">
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/plugins.js"></script>
+		<script type="text/javascript" src="/js/functions.js"></script>
+		
+		<!-- 개별 js -->
+		<th:block layout:fragment="js"></th:block>
+	</th:block>
+</html>

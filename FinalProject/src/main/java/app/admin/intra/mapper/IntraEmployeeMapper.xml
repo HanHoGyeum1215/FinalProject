@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.admin.intra.mapper.IntraEmployeeMapper">
+	<sql id="mapColumns"> <!-- dep_no 제외 한 컬럼 -->
+		EMP_ID,
+		EMP_PASS,
+		EMP_NAME,
+		EMP_EMAIL,
+		EMP_TEL,
+		EMP_DUTY,
+		CREATE_AT
+	</sql>
+	<sql id="baseColumns">
+		EMP_ID,
+		DEP_NO,
+		EMP_PASS,
+		EMP_NAME,
+		EMP_EMAIL,
+		EMP_TEL,
+		EMP_DUTY,
+		CREATE_AT
+	</sql>
+	
+	<insert id="insertEmployee" parameterType="app.admin.intra.domain.IntraEmployeeDTO">
+		INSERT INTO employee(<include refid="baseColumns" />)
+		VALUES (
+			#{empId},
+			#{depNo},
+			#{empPass},
+			#{empName},
+			#{empEmail},
+			#{empTel},
+			null,
+			sysdate
+		)
+	</insert>
+	
+	<resultMap type="app.admin.intra.domain.IntraEmployeeDTO" id="employeeMap">
+		<id column="emp_id" jdbcType="VARCHAR" property="empId" />
+		<result column="emp_pass" jdbcType="VARCHAR" property="empPass" />
+		<result column="emp_name" jdbcType="VARCHAR" property="empName" />
+		<result column="emp_email" jdbcType="VARCHAR" property="empEmail" />
+		<result column="emp_tel" jdbcType="VARCHAR" property="empTel" />
+		<result column="emp_duty" jdbcType="VARCHAR" property="empDuty" />
+		<result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+		<association property="department" javaType="app.admin.intra.domain.IntraDepartmentDTO" resultMap="departmentMap" />
+	</resultMap>
+	
+	<select id="selectAllEmployee" parameterType="app.domain.StartEndPageDTO" resultMap="employeeMap">
+		SELECT *
+		FROM (
+			SELECT rownum rn, 
+					<include refid="mapColumns" />,
+					dep_no, dep_name
+			FROM (
+				SELECT <include refid="mapColumns" />,
+						d.dep_no, d.dep_name
+				FROM employee e JOIN department d
+				ON e.dep_no = d.dep_no
+				<trim prefix="where" prefixOverrides="AND | OR">
+					<if test="userId != null">
+						and emp_id = #{userId}
+					</if>
+				</trim>
+				ORDER BY create_at DESC
+			)
+		)
+		WHERE rn between #{startPage} and #{endPage}
+	</select>
+	
+	<resultMap type="app.admin.intra.domain.IntraDepartmentDTO" id="departmentMap">
+		<id column="dep_no" jdbcType="BIGINT" property="depNo" />
+		<result column="dep_name" jdbcType="VARCHAR" property="depName" />
+	</resultMap>
+	
+	<select id="selectAllDepartment" resultMap="departmentMap">
+		SELECT DEP_NO, DEP_NAME
+		FROM department
+	</select>
+	
+	<select id="selectCountEmployee" resultType="int">
+		SELECT count(*)
+		FROM employee
+	</select>
+	
+	<select id="findId" parameterType="app.domain.UserIdChangeDTO" resultType="string">
+		SELECT emp_id
+		FROM employee
+		WHERE emp_name = #{userName}
+			AND emp_email = #{userEmail}
+			AND emp_tel = #{userTel}
+	</select>
+	
+	<update id="updateEmployee" parameterType="app.admin.intra.domain.IntraEmployeeDTO">
+		UPDATE employee
+		<trim prefix="set" suffixOverrides=",">
+			<if test="depNo != null">
+				dep_no = #{depNo},
+			</if>
+			<if test="empName != null">
+				emp_name = #{empName},
+			</if>
+			<if test="empEmail != null">
+				emp_email = #{empEmail},
+			</if>
+			<if test="empTel != null">
+				emp_tel = #{empTel},
+			</if>
+			<if test="empDuty != null">
+				emp_duty = #{empDuty},
+			</if>
+		</trim>
+		WHERE emp_id = #{empId}
+	</update>
+	
+	<update id="changePw" parameterType="app.domain.UserPwChangeDTO">
+		UPDATE employee
+		SET emp_pass = #{newPw}
+		WHERE emp_id = #{userId}
+			AND emp_name = #{userName}
+			AND emp_email = #{userEmail}
+	</update>
+</mapper>

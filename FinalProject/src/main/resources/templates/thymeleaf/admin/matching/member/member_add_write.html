@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/admin/matching/default">
+<head>
+  	<title>Admin</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">회원 추가 정보 등록</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<!-- Page 컨텐츠 영역 -->
+	        			<form action="memberAddWrite" method="POST" name="frm" id="frm" enctype="multipart/form-data">
+	        				
+	        				<div class="form-group row">
+	        					<label for="memCareer" class="col-sm-2 col-form-label">
+	        						학력
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="memCareer" name="memCareer" class="form-control">
+										<option selected>....</option>
+										<option value='A'>고졸</option>
+										<option value='B'>전문학사</option>
+										<option value='C'>학사</option>
+										<option value='D'>석사</option>
+										<option value='E'>박사</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="memJob" class="col-sm-2 col-form-label">
+	        						직업
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="memJob" name="memJob" class="form-control">
+										<option selected>....</option>
+										<option value='A'>무직</option>
+										<option value='B'>사무직</option>
+										<option value='C'>금융직</option>
+										<option value='D'>기술직</option>
+										<option value='E'>의료계</option>
+										<option value='F'>언론계</option>
+										<option value='G'>교사</option>
+										<option value='H'>공무원</option>
+										<option value='I'>공사직</option>
+										<option value='J'>자영업</option>
+										<option value='K'>예능계</option>
+										<option value='L'>서비스</option>
+										<option value='M'>전문직</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memSalary" class="col-sm-2 col-form-label">
+	        						연봉(만원)
+	        					</label>
+	        					<div class="col-sm-10">
+	        					<input type="text" name="memSalary" class="form-control" id="memSalary">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memHgt" class="col-sm-2 col-form-label">
+	        						키(cm)
+	        					</label>
+	        					<div class="col-sm-10">
+	        					<input type="text" name="memHgt" class="form-control" id="memHgt">
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="memWgt" class="col-sm-2 col-form-label">
+	        						몸무게(kg)
+	        					</label>
+	        					<div class="col-sm-10">
+	        					<input type="text" name="memWgt" class="form-control" id="memWgt">
+	        					</div>
+	        				</div>
+	        				
+	        				
+	        				<div class="form-group row">
+	        					<label for="memBlood" class="col-sm-2 col-form-label">
+	        						혈액형
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="memBlood" name="memBlood" class="form-control">
+										<option selected>....</option>
+										<option value='A'>A형</option>
+										<option value='B'>B형</option>
+										<option value='C'>AB형</option>
+										<option value='D'>O형</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				<div class="form-group row">
+	        					<label for="memRlg" class="col-sm-2 col-form-label">
+	        						종교
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="memRlg" name="memRlg" class="form-control">
+										<option selected>....</option>
+										<option value='A'>무교</option>
+										<option value='B'>기독교</option>
+										<option value='C'>천주교</option>
+										<option value='D'>불교</option>
+										<option value='E'>이슬람교</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				
+	        				
+	        				<div class="form-group row">
+	        				<label for="memHobby" class="col-sm-2 col-form-label">
+	        						취미
+	        					</label>
+	        				<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="A">
+								  <label class="form-check-label" for="inlineCheckbox1">등산</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="B">
+								  <label class="form-check-label" for="inlineCheckbox1">독서</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="C">
+								  <label class="form-check-label" for="inlineCheckbox1">음악감상</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="D">
+								  <label class="form-check-label" for="inlineCheckbox1">게임</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="E">
+								  <label class="form-check-label" for="inlineCheckbox1">운동</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="F">
+								  <label class="form-check-label" for="inlineCheckbox1">영화관람</label>
+							</div>
+							<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="checkbox" id="memHobby" name="memHobby" value="G">
+								  <label class="form-check-label" for="inlineCheckbox1">여행</label>
+							</div>
+							</div>
+	        				<div class="form-group row">
+	        					<label for="memImage" class="col-sm-2 col-form-label">
+	        						프로필 사진
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="file" class="form-control" name="memImage" multiple="multiple"/>
+	        					</div>
+	        				</div>
+	        				
+	        				
+	        				
+	        				<!-- <div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						select title
+	        					</label>
+	        					<div class="col-sm-10">
+									<select id="" class="form-control">
+										<option selected="">Choose...</option>
+										<option>...</option>
+									</select>
+	        					</div>
+	        				</div>
+	        				<div class="form-group row">
+	        					<label for="" class="col-sm-2 col-form-label">
+	        						file title
+	        					</label>
+	        					<div class="col-sm-10">
+	        						<input type="file" class="form-control" id="">
+	        					</div>
+	        				</div> -->
+	        				<div class="btn-group float-sm-right">
+	        					<button type="submit" class="btn btn-primary">등록</button>
+	        				</div>
+	        			</form>
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

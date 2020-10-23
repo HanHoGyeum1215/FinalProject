@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+		<script>
+		function openZipSearch() {
+            new daum.Postcode({
+               oncomplete: function(data) {
+            	   var fullAddr = data.address; // 최종 주소 변수
+                   var extraAddr = ''; // 조합형 주소 변수
+    
+                   // 기본 주소가 도로명 타입일때 조합한다.
+                   if(data.addressType === 'R'){
+                       //법정동명이 있을 경우 추가한다.
+                       if(data.bname !== ''){
+                           extraAddr += data.bname;
+                       }
+                       // 건물명이 있을 경우 추가한다.
+                       if(data.buildingName !== ''){
+                           extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                       }
+                       // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                       fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+            	   
+                  $('[name=memAddr]').val(fullAddr);
+                  $('[name=zip]').val(data.zonecode); // 우편번호 (5자리)
+                  $('[name=addr1]').val(data.address);
+                  $('[name=addr2]').val(data.buildingName);
+               }
+               }
+            }).open();
+         }
+		</script>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>My Account</h1>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<div class="col_one_third nobottommargin">
+
+					<div class="well well-lg nobottommargin">
+						<form id="login-form" name="login-form" class="nobottommargin" th:action="@{/login}" method="post" th:object="${memberLoginCommand}">
+							<input type="hidden" name="path" th:value="${path}" />
+							<h3>로그인</h3>
+
+							<div class="col_full">
+								<label for="login-form-username">ID:</label>
+								<input type="text" id="login-form-username" class="form-control" th:field="*{userId}" />
+								<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span>
+		                    	<span th:text="${valid_mem}"></span>
+							</div>
+
+							<div class="col_full">
+								<label for="login-form-password">Password:</label>
+								<input type="password" id="login-form-password" class="form-control" th:field="*{userPw}" />
+								<span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}" ></span>
+								<span th:text="${valid_pw}"></span>
+							</div>
+
+							<div class="col_full nobottommargin">
+								<button class="button button-3d nomargin" id="login-form-submit">Login</button>
+								<a href="/findIdPw" class="fright">Forgot ID/Password?</a>
+							</div>
+
+						</form>
+					</div>
+
+				</div>
+
+				<div class="col_two_third col_last nobottommargin">
+
+
+					<h3>회원가입</h3>
+
+					<form id="register-form" name="register-form" class="nobottommargin" action="memberJoin2" method="post" th:object="${memberCommand}">
+
+						<div class="col_half">
+							<label for="register-form-name">ID:</label>
+							<input type="text" id="register-form-name" name="memId"  th:field="*{memId}" class="form-control" />
+							<span th:text="${duplicate_memId}"></span>
+	        						<span th:if="${#fields.hasErrors('memId')}" th:errors="*{memId}"></span>
+						</div>
+
+						<div class="col_half col_last">
+							<label for="register-form-email">Email:</label>
+							<input type="text" id="register-form-email" name="memEmail" th:field="*{memEmail}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memEmail')}" th:errors="*{memEmail}" ></span>
+						</div>
+
+						<div class="clear"></div>
+
+						<div class="col_half">
+							<label for="register-form-username">Choose a Username:</label>
+							<input type="text" id="register-form-username" name="memName" th:field="*{memName}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}" ></span>
+						</div>
+
+						<div class="col_half col_last">
+							<label for="register-form-phone">Phone:</label>
+							<input type="text" id="register-form-phone" name="memTel" th:field="*{memTel}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memTel')}" th:errors="*{memTel}" ></span>
+						</div>
+
+						<div class="clear"></div>
+
+						<div class="col_half">
+							<label for="register-form-password">Choose Password:</label>
+							<input type="password" id="register-form-password" name="memPass" th:field="*{memPass}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memPass')}" th:errors="*{memPass}"></span>
+							<span th:text="${valid_memPwCon}"></span>
+						</div>
+
+						<div class="col_half col_last">
+							<label for="register-form-repassword">Re-enter Password:</label>
+							<input type="password" id="register-form-repassword" name="memPassCon" th:field="*{memPassCon}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memPassCon')}" th:errors="*{memPassCon}" ></span>
+						</div>
+
+						<div class="clear"></div>
+						
+						<div class="col_full">
+							<label for="register-form-address">Address:</label>
+							<input type="text" id="register-form-address" name="memAddr" th:field="*{memAddr}" class="form-control"/>
+							<button type="button" class="button button-3d button-blue" onclick='openZipSearch();' style="margin-left: 0;">주소검색</button>
+							<br>
+							<span th:if="${#fields.hasErrors('memAddr')}" th:errors="*{memAddr}" ></span>
+						</div>
+						
+						<div class="clear"></div>
+						
+						<div class="col_half">
+							<label for="register-form-gender">Gender:</label>
+							<select id="memGender" name="memGender" class="form-control">
+								<option value='M'>남자</option>
+								<option value='F'>여자</option>
+							</select>
+						</div>
+						
+						<div class="col_half col_last">
+							<label for="register-form-birth">Birth:</label>
+							<input type="date" id="register-form-birth" name="memBirth" th:field="*{memBirth}" class="form-control" />
+							<span th:if="${#fields.hasErrors('memBirth')}" th:text="'생년월일을 선택하세요.'" ></span>
+						</div>
+
+						<div class="col_full nobottommargin">
+							<button class="button button-3d button-black nomargin" id="register-form-submit">Register Now</button>
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+    </th:block>
+</body>
+</html>

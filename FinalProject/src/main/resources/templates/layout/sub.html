@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="fragments/head :: headFragment">
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Final Project</title>
+</head>
+<body class="stretched">
+	<div id="wrapper" class="clearfix">
+		<!-- [header] 영역 시작 -->
+		<header th:replace="fragments/header :: headerFragment"></header>
+		<!-- [header] 영역 끝 -->
+	
+		<!-- [content] 영역 시작 -->
+		<th:block layout:fragment="content"></th:block>
+		<!-- [content] 영역 끝 -->
+		
+		<!-- [footer] 영역 시작 -->
+		<footer th:replace="fragments/footer :: footerFragment"></footer>
+		<!-- [footer] 영역 끝 -->
+	</div>
+	
+	<!-- [script] 영역 시작 -->
+	<th:block th:replace="fragments/scripts :: scriptFragment"></th:block>
+	<!-- [script] 영역 끝 -->
+</body>
+</html>

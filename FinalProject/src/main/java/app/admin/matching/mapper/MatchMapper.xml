@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="app.admin.matching.mapper.MatchMapper">
+	<sql id="col_match">
+		MAT_NO, MEM_ID, PARTNER_ID, EMP_ID,
+		MAT_DATE, MAT_CHECK, MAT_LOC
+	</sql>
+	<sql id="col_mem">
+		MEM_ID, MEM_NAME, MEM_BIRTH, MEM_ADDR, MEM_TEL, 
+		MEM_EMAIL, MEM_PASS, MEM_GENDER, MEM_REGIST, MEM_JOINOK
+	</sql>
+	
+	<update id="matchUpdate" parameterType="app.admin.matching.domain.MatchDTO">
+		update matching
+		set MEM_ID=#{memId}, PARTNER_ID=#{partnerId}, MAT_DATE=#{matDate},
+			MAT_CHECK=#{matCheck}, MAT_LOC=#{matLoc}
+		where MAT_NO=#{matNo}
+		
+	</update>
+	
+	
+	
+	
+	
+	<insert id="matchInsert" parameterType="app.admin.matching.domain.MatchDTO">
+	 insert into matching (<include refid="col_match"/>)
+	 values(MATCH_SEQ.NEXTVAL,#{memId}, #{partnerId}, #{empId}, #{matDate}, #{matCheck}, #{matLoc})
+	 
+	</insert>
+	<resultMap type="app.admin.matching.domain.MatchDTO" id="match">
+		<id column="MAT_NO" jdbcType="INTEGER" property="matNo"/>
+		<result column="MEM_ID" jdbcType="VARCHAR" property="memId"/>
+		<result column="PARTNER_ID" jdbcType="VARCHAR" property="partnerId"/>
+		<result column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+		<result column="MAT_DATE" jdbcType="TIMESTAMP" property="matDate"/>
+		<result column="MAT_CHECK" jdbcType="VARCHAR" property="matCheck"/>
+		<result column="MEM_NAME" jdbcType="VARCHAR" property="memName"/>
+		<result column="MEM_BIRTH" jdbcType="TIMESTAMP" property="memBirth"/>
+		<result column="MEM_GENDER" jdbcType="VARCHAR" property="memGender"/>
+		<result column="MAT_LOC" jdbcType="VARCHAR" property="matLoc"/>
+		
+	
+	</resultMap>
+	
+	
+	<select id="selectMatch" parameterType="app.domain.StartEndPageDTO" resultMap="match">
+		select *
+		from(select rownum rn, MAT_NO, MEM_ID, PARTNER_ID, EMP_ID,
+					MAT_DATE, MAT_CHECK, MAT_LOC, mem_name, mem_tel, 
+					mem_birth, mem_gender
+			from(select MAT_NO, a.MEM_ID, PARTNER_ID, EMP_ID,
+						MAT_DATE, MAT_CHECK, MAT_LOC, m.mem_name, m.mem_tel, 
+						m.mem_birth, m.mem_gender
+				from MATCHING a join member m
+				on a.mem_id = m.mem_id
+				<where>
+					<if test="num != null">
+						MAT_NO=#{num}
+					</if>
+				</where>
+				order by MAT_DATE desc))
+		where rn &gt;= #{startPage} and rn &lt;= #{endPage}
+	
+	</select>
+	<select id="getMatchCount" resultType="int">
+		select count(*) from MATCHING
+	</select>
+	<sql id="col_matchpay">
+		MATPAY_NO, MEM_ID, MATPAY_WAY, MATPAY_PRICE, MATPAY_REQ, MATPAY_DATE
+	</sql>
+	<insert id="matchPayInsert" parameterType="app.admin.matching.domain.MatchPayDTO">
+		INSERT INTO MATCHPAY(<include refid="col_matchpay"/>)
+		VALUES(MATCHPAY_SEQ.NEXTVAL,#{memId},#{matPayWay},
+				#{matPayPrice},#{matPayReq},SYSDATE)
+	
+	</insert>
+	
+	<update id="memberMatchUpdate" parameterType="string">
+		UPDATE MEMBERADD
+		SET MEM_MAT=MEM_MAT+1
+		WHERE (MEM_ID=#{value} AND 6 > MEM_MAT) 
+	</update>
+	
+	<update id="memberMatchUpdate2" parameterType="string">
+		UPDATE MEMBERADD
+		SET MEM_MAT=MEM_MAT-1
+		WHERE MEM_ID=#{value} 
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</mapper>

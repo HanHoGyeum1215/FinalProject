@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/sub">
+<head>
+  	<title>User</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content" class="content">
+   	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>My Account</h1>
+		</div>
+
+	</section>
+	
+	<section id="content">
+
+		<div class="content-wrap">
+
+			<div class="container clearfix">
+
+				<div class="tabs divcenter nobottommargin clearfix" id="tab-login-register" style="max-width: 500px;">
+
+					<ul class="tab-nav tab-nav2 center clearfix">
+						<li class="inline-block"><a href="#tab-login">find Id</a></li>
+						<li class="inline-block"><a href="#tab-register">find Password</a></li>
+					</ul>
+
+					<div class="tab-container">
+
+						<div class="tab-content clearfix" id="tab-login">
+							<div class="panel panel-default nobottommargin">
+								<div class="panel-body" style="padding: 40px;">
+									<form id="login-form" class="nobottommargin" action="/findId" method="post" th:object="${changeIdCommand}">
+
+										<h3>Find ID</h3>
+
+										<div class="col_full">
+											<label for="login-form-username">Name:</label>
+											<input type="text" id="login-form-username" name="userName" th:field="*{userName}" class="form-control" />
+											<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+										</div>
+
+										<div class="col_full">
+											<label for="login-form-password">Email:</label>
+											<input type="text" id="login-form-password" name="userEmail" th:field="*{userEmail}" class="form-control" />
+											<span th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></span>
+										</div>
+										
+										<div class="col_full">
+											<label for="login-form-password">Tel:</label>
+											<input type="text" id="login-form-password" name="userTel" th:field="*{userTel}" class="form-control" />
+											<span th:if="${#fields.hasErrors('userTel')}" th:errors="*{userTel}"></span>
+										</div>
+
+										<div class="col_full nobottommargin">
+											<button class="button button-3d button-black nomargin" id="login-form-submit">submit</button>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-content clearfix" id="tab-register">
+							<div class="panel panel-default nobottommargin">
+								<div class="panel-body" style="padding: 40px;">
+									<h3>Find Password</h3>
+
+									<form id="register-form" class="nobottommargin" action="/findPassword" method="post" th:object="${changePwCommand}">
+
+										<div class="col_full">
+											<label for="register-form-name">ID:</label>
+											<input type="text" id="register-form-name" th:field="*{userId}"class="form-control" />
+											<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span>
+											<span th:if="${valid_Id != null}" th:text="${valid_Id}"></span>
+										</div>
+
+										<div class="col_full">
+											<label for="register-form-email">Name:</label>
+											<input type="text" id="register-form-email" th:field="*{userName}" class="form-control" />
+											<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+											<span th:if="${valid_Name != null}" th:text="${valid_Name}"></span>
+										</div>
+
+										<div class="col_full">
+											<label for="register-form-username">Email:</label>
+											<input type="text" id="register-form-username" th:field="*{userEmail}" class="form-control" />
+											<span th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></span>
+											<span th:if="${valid_Email != null}" th:text="${valid_Email}"></span>
+										</div>
+
+										<div class="col_full">
+											<label for="register-form-password">Change Password:</label>
+											<input type="password" id="register-form-password" th:field="*{newPw}" class="form-control" />
+											<span th:if="${#fields.hasErrors('newPw')}" th:errors="*{newPw}"></span>
+										</div>
+
+										<div class="col_full">
+											<label for="register-form-repassword">Change Password Confirm:</label>
+											<input type="password" id="register-form-repassword" th:field="*{newPwCon}" class="form-control" />
+											<span th:if="${#fields.hasErrors('newPwCon')}" th:errors="*{newPwCon}"></span>
+											<span th:if="${valid_reNewPw != null}" th:text="${valid_reNewPw}"></span>
+										</div>
+
+										<div class="col_full nobottommargin">
+											<button class="button button-3d button-black nomargin" id="register-form-submit">Register Now</button>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+	
+    </th:block>
+</body>
+</html>

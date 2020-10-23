@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorator="layout/partner/mall/default">
+<head>
+  	<title>Partner</title>
+	<!-- 페이지 css -->
+	<th:block layout:fragment="css">
+		<style></style>
+	</th:block>
+	
+	<!-- 페이지 js -->
+	<th:block layout:fragment="js">
+		<script></script>
+	</th:block>
+</head>
+
+<body>
+    <th:block layout:fragment="content" class="content">
+    	<!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">주문 리스트</h1>
+        <div class="row">
+        	<div class="col-md-12">
+	        	<div class="card">
+	        		<div class="card-body">
+	        			<div class="row">
+	        				<div class="col-sm-12">
+			        			<!-- Page 컨텐츠 영역 -->
+								<table class="table table-bordered">
+									<colgroup>
+										<col style="width:80px;" />
+										<col />
+										<col />
+										<col />
+									</colgroup>
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>주문번호</th>
+											<th>....</th>
+											<th>....</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>1</th>
+											<td>
+												<a href="orderView">asd 01</a>
+											</td>
+											<td>....</td>
+											<td>....</td>
+										</tr>
+										<tr>
+											<th>2</th>
+											<td>
+												<a href="orderView">asd 02</a>
+											</td>
+											<td>....</td>
+											<td>....</td>
+										</tr>
+										<tr>
+											<th>3</th>
+											<td>
+												<a href="orderView">asd 03</a>
+											</td>
+											<td>....</td>
+											<td>....</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-end">
+								<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</nav>
+						<!--
+						개발이 완료되면 페이징은 아래에 있는걸로 사용하세요 
+						<th:block th:replace="fragments/admin/includePage :: pagingFragment"></th:block>
+						 -->
+	        		</div>
+	        	</div>
+        	</div>
+        </div>
+    </th:block>
+</body>
+</html>

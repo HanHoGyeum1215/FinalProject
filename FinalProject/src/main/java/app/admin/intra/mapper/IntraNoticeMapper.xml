@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="app.admin.intra.mapper.IntraNoticeMapper">
+  <sql id="baseColumns">
+  	NOT_NO,
+  	EMP_ID,
+  	NOT_SUB,
+  	NOT_CONT,
+  	NOT_DATE,
+  	NOT_COUNT,
+  	NOT_ORIGIN_FILE,
+  	NOT_STORE_FILE,
+  	NOT_SIZE
+  </sql>
+  <insert id="insertNotice" parameterType="app.admin.intra.domain.IntraNoticeDTO">
+  insert into NOTICE(
+	  	<include refid="baseColumns" />
+  	)
+  values(
+	  	NUM_SEQ.nextval,
+	  	#{empId},
+	  	#{notSub},
+	  	#{notCont},
+	  	SysDate,
+	  	0,
+	  	#{notOriginFile},
+	  	#{notStoreFile},
+	  	#{notSize}
+	 )
+  </insert>
+  <select id="noticeCount" resultType="int">
+		select count(*) from NOTICE
+	</select>
+	 <select id="commuteCount" resultType="int">
+		select count(*) from COMMUTE
+	</select>
+	<update id="readCount" parameterType = "int">
+	update NOTICE
+		set not_count = not_count + 1
+		where not_no = #{notNo}
+	</update>
+    
+  
+  	<resultMap type="app.admin.intra.domain.IntraNoticeDTO" id="aaa">
+		<id column="NOT_NO" jdbcType="BIGINT" property="notNo" />
+		<id column="EMP_ID" jdbcType="VARCHAR" property="empId" />
+		<result column="NOT_SUB" jdbcType="VARCHAR"	property="notSub" />
+		<result column="NOT_CONT" jdbcType="VARCHAR" property="notCont" />
+		<result column="NOT_DATE" jdbcType="TIMESTAMP" property="notDate" />
+		<result column="NOT_COUNT" jdbcType="BIGINT" property="notCount" />
+		<result column="NOT_ORIGIN_FILE" jdbcType="VARCHAR"	property="notOriginFile" />
+		<result column="NOT_STORE_FILE" jdbcType="VARCHAR" property="notStoreFile" />
+		<result column="NOT_SIZE" jdbcType="VARCHAR" property="notSize" />
+	</resultMap>
+	
+	<select id="viewNotice" parameterType="app.domain.StartEndPageDTO" resultMap="aaa">
+		select *
+		from(
+		select rownum rn, <include refid="baseColumns" />
+		from (
+		select * 
+		from notice
+		order by NOT_DATE
+		)
+		)
+		where rn between #{startPage}
+		and #{endPage}
+	</select>
+	
+	<select id="detailNotice" parameterType="int" resultMap="aaa">
+	select <include refid="baseColumns" />
+	from notice
+	where NOT_NO = #{notNo}
+	</select>
+	
+	<select id="modifyNotice" parameterType="int" resultMap="aaa">
+	select <include refid="baseColumns" />
+	from notice
+	where NOT_NO = #{notNo}
+	</select>
+		
+	<update id="updateNotice"  parameterType="app.admin.intra.domain.IntraNoticeDTO">
+	update notice
+	set NOT_SUB = #{notSub}, NOT_CONT = #{notCont} 
+	where NOT_NO = #{notNo} 
+	</update>
+	
+	
+	<delete id="deleteNotice"  parameterType="app.admin.intra.domain.IntraNoticeDTO" >
+	delete from notice
+	where NOT_NO = #{notNo} <!-- and  emp_pass = #{empPass}	 -->
+	</delete>
+	
+  </mapper>
